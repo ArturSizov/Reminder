@@ -2,6 +2,11 @@
 {
     public static class RootModule
     {
+        /// <summary>
+        /// Basic Ioc
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
         public static MauiAppBuilder UseServices(this MauiAppBuilder builder)
         {
             RegisterServices(builder.Services);

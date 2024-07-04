@@ -66,4 +66,8 @@
 	  <Folder Include="Models\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\SDK.ViewModels\SDK.ViewModels\SDK.ViewModels.csproj" />
+	</ItemGroup>
+
 </Project>

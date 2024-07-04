@@ -1,12 +1,12 @@
 ﻿namespace Reminder
 {
-    public partial class App : Application
+    public partial class App
     {
-        public App()
+        public App(AppShell shell)
         {
             InitializeComponent();
 
-            MainPage = new AppShell();
+            MainPage = shell;
         }
 
         /// <summary>

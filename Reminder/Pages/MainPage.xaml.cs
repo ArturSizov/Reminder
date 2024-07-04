@@ -1,12 +1,14 @@
-﻿namespace Reminder.Pages
-{
-    public partial class MainPage : ContentPage
-    {
-        int count = 0;
+﻿using Reminder.ViewModels;
 
-        public MainPage()
+namespace Reminder.Pages
+{
+    public partial class MainPage
+    {
+        public MainPage(MainPageViewModel vm)
         {
             InitializeComponent();
+
+            BindingContext = vm;
         }
     }
 
