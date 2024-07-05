@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using DevExpress.Maui;
+using Microsoft.Extensions.Logging;
 using Reminder.IoCModules;
 
 namespace Reminder
@@ -11,6 +13,8 @@ namespace Reminder
             builder
                 .UseMauiApp<App>()
                 .UseServices()
+                .UseMauiCommunityToolkit()
+                .UseDevExpress()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
