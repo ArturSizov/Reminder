@@ -71,9 +71,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Abstractions\" />
 	  <Folder Include="Controls\" />
-	  <Folder Include="Managers\" />
 	  <Folder Include="Services\" />
 	</ItemGroup>
 
