@@ -14,7 +14,12 @@ namespace Reminder
                 .UseMauiApp<App>()
                 .UseServices()
                 .UseMauiCommunityToolkit()
-                .UseDevExpress()
+                .UseDevExpress(true)
+                .UseDevExpressCharts()
+                .UseDevExpressCollectionView()
+                .UseDevExpressControls()
+                .UseDevExpressEditors()
+                .UseDevExpressDataGrid()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
