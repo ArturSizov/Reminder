@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using DevExpress.Maui;
+using FFImageLoading.Maui;
 using Microsoft.Extensions.Logging;
 using Reminder.IoCModules;
 
@@ -20,6 +21,7 @@ namespace Reminder
                 .UseDevExpressControls()
                 .UseDevExpressEditors()
                 .UseDevExpressDataGrid()
+                .UseFFImageLoading()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

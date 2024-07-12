@@ -82,7 +82,6 @@ namespace Reminder.Managers
             Items.FirstOrDefault(x => x.Id == item.Id);
 
             return _dataProvider.UpdateAsync(item.ToDAO());
-
         }
     }
 }

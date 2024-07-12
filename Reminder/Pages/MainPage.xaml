@@ -1,31 +1,116 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dxg="clr-namespace:DevExpress.Maui.DataGrid;assembly=DevExpress.Maui.DataGrid"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+             xmlns:ffimage="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:vm="clr-namespace:Reminder.ViewModels"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="true"
              x:Class="Reminder.Pages.MainPage"
-             x:DataType="vm:MainPageViewModel">
+             Shell.NavBarIsVisible="False" 
+             BackgroundColor="{StaticResource Gray95}" 
+             Background="{AppThemeBinding Light={StaticResource Gray95}, Dark=#1D1A22}">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
-            <Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a race car number eight" />
+    <ContentPage.BindingContext>
+        <vm:MainPageViewModel/>
+    </ContentPage.BindingContext>
 
-            <Label
-                Text="Hello, World!"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray950}}" StatusBarStyle="DarkContent" />
+    </ContentPage.Behaviors>
 
-            <Label
-                Text="{Binding Title}"
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
-        </VerticalStackLayout>
-    </ScrollView>
+    <Grid RowDefinitions="45, *">
+        <Border StrokeThickness="0" 
+                Stroke="Transparent" 
+                Background="Transparent">
+            <dxe:TextEdit EndIcon="search" 
+                          PlaceholderText="Поиск по имени" 
+                          TextFontSize="14" 
+                          ClearIconColor="{StaticResource Gray300}" 
+                          TextVerticalAlignment="Center" 
+                          BackgroundColor="{AppThemeBinding Light=White, Dark=#322F37}" 
+                          BorderThickness="1" 
+                          BorderColor="{AppThemeBinding Light=#DCD8E0, Dark=#938F99}" 
+                          BoxPadding="20,6,10,6" 
+                          PlaceholderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark=#938F99}" 
+                          EndIconColor="{AppThemeBinding Light={StaticResource Gray300}, Dark=#CAC4D0}" 
+                          FocusedBorderColor="Transparent" 
+                          CornerRadius="16" 
+                          HeightRequest="35" 
+                          Margin="5,0,5,0" 
+                          TextChanged="SearchTextChanged" TextColor="{AppThemeBinding Light={StaticResource Gray950}, Dark=#E6E1E5}"/>
+        </Border>
 
+        <dxg:DataGridView x:Name="dataGrid" 
+                          Grid.Row="1" 
+                          IsColumnHeaderVisible="False"
+                          ItemsSource="{Binding Users}"
+                          SelectionMode="None" BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark=#141414}" 
+                          AllowDragDropRows="True" AllowDragDropSortedRows="True" AllowGroupCollapse="False">
+
+            <dxg:DataGridView.CellAppearance>
+                <dxg:CellAppearance BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark=#141414}" 
+                                    HorizontalLineThickness="0"/>
+            </dxg:DataGridView.CellAppearance>
+
+            <dxg:DataGridView.Columns>
+                <dxg:TemplateColumn SortOrder="Ascending" 
+                                    IsGrouped="True" 
+                                    GroupInterval="Alphabetical" 
+                                    BackgroundColor="Transparent"
+                                    LineBreakMode="TailTruncation">
+                    <dxg:TemplateColumn.DisplayTemplate>
+                        <DataTemplate>
+                            <dx:DXButton Padding="5" 
+                                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray95}, Dark={StaticResource Gray95}}" 
+                                         CornerRadius="10"
+                                         HorizontalContentAlignment="Start"
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainPageViewModel}}, Path=OpenUserProfileCommand}">
+                                <Grid ColumnDefinitions="80, *"
+                                      Padding="5">
+                                    <Frame CornerRadius="40"
+                                           WidthRequest="80"
+                                           HeightRequest="80"
+                                           BorderColor="Transparent"        
+                                           Padding="-1">
+                                        <Grid>
+                                            <Image Aspect="AspectFill"
+                                                   Source="ic_anonymous.png"/>
+                                            <ffimage:CachedImage Source="{Binding Item.Avatar}"
+                                                                 Aspect="AspectFill"
+                                                                 ErrorPlaceholder="ic_anonymous.png"/>
+                                        </Grid>
+                                    </Frame>
+                                    <dx:DXStackLayout Grid.Column="1"
+                                                      Orientation="Vertical"
+                                                      HorizontalOptions="CenterAndExpand"
+                                                      VerticalOptions="CenterAndExpand"
+                                                      Padding="5">
+                                        <dx:DXStackLayout Orientation="Horizontal"  
+                                                          VerticalOptions="End">
+                                            <Label Text="{Binding Item.LastName}" 
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark=#E6E1E5}" 
+                                                   FontAttributes="Bold"/>
+                                            <Label Text="{Binding Item.Name}" 
+                                                   Margin="5,0,0,0" TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark=#E6E1E5}" 
+                                                   FontAttributes="Bold"/>
+                                            <Label Text="{Binding Item.MiddleName}" 
+                                                   Margin="5,0,0,0" TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark=#E6E1E5}" 
+                                                   FontAttributes="Bold"/>
+                                        </dx:DXStackLayout>
+                                        <Label Text="{Binding Item.Position}" 
+                                               TextColor="{StaticResource Gray400}" 
+                                               LineBreakMode="TailTruncation" 
+                                               VerticalOptions="Start"/>
+                                    </dx:DXStackLayout>
+                                </Grid>
+                            </dx:DXButton>
+                        </DataTemplate>
+                    </dxg:TemplateColumn.DisplayTemplate>
+                </dxg:TemplateColumn>
+            </dxg:DataGridView.Columns>
+        </dxg:DataGridView>
+    </Grid>
 </ContentPage>
