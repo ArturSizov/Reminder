@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Reminder.Auxiliary;
 using Reminder.DataAccessLayer.DAO;
-using SDK.ViewModels.Abstractions;
+using SDK.Base.Abstractions;
 
 namespace Reminder.DataAccessLayer
 {

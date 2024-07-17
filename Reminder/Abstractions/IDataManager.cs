@@ -1,4 +1,4 @@
-﻿using SDK.ViewModels.Abstractions;
+﻿using SDK.Base.Abstractions;
 using System.Collections.ObjectModel;
 
 namespace Reminder.Abstractions

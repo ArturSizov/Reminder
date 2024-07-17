@@ -2,7 +2,7 @@
 using Reminder.Auxiliary;
 using Reminder.DataAccessLayer.DAO;
 using Reminder.Models;
-using SDK.ViewModels.Abstractions;
+using SDK.Base.Abstractions;
 using System.Collections.ObjectModel;
 
 namespace Reminder.Managers

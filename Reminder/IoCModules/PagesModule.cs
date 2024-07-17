@@ -15,6 +15,7 @@ namespace Reminder.IoCModules
         {
             services.AddTransient<AppShell>();
             services.AddTransient<MainPage>();
+            services.AddTransient<UserProfilePage>();
         }
 
     }

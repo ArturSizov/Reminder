@@ -6,7 +6,10 @@
              xmlns:ffimage="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:vm="clr-namespace:Reminder.ViewModels"
+             xmlns:converters="clr-namespace:Reminder.Converters"
+             xmlns:avatar="clr-namespace:Reminder.Controls"        
              xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             xmlns:properties="clr-namespace:SDK.Base.Properties;assembly=SDK.Base"
              ios:Page.UseSafeArea="true"
              x:Class="Reminder.Pages.MainPage"
              Shell.NavBarIsVisible="False" 
@@ -20,13 +23,19 @@
     <ContentPage.Behaviors>
         <toolkit:StatusBarBehavior StatusBarColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray950}}" StatusBarStyle="DarkContent" />
     </ContentPage.Behaviors>
-
+    
+    <ContentPage.Resources>
+        <converters:IsVisibleConverter x:Key="IsVisibleConverter"/>
+    </ContentPage.Resources>
+    
     <Grid RowDefinitions="45, *">
         <Border StrokeThickness="0" 
                 Stroke="Transparent" 
-                Background="Transparent">
-            <dxe:TextEdit EndIcon="search" 
-                          PlaceholderText="Поиск по имени" 
+                Background="Transparent"
+                IsVisible="{Binding Users.Count, Converter={StaticResource IsVisibleConverter}}">
+            <dxe:TextEdit x:Name="search"
+                          EndIcon="search" 
+                          PlaceholderText="{x:Static properties:Resource.Search}" 
                           TextFontSize="14" 
                           ClearIconColor="{StaticResource Gray300}" 
                           TextVerticalAlignment="Center" 
@@ -39,16 +48,22 @@
                           FocusedBorderColor="Transparent" 
                           CornerRadius="16" 
                           HeightRequest="35" 
-                          Margin="5,0,5,0" 
-                          TextChanged="SearchTextChanged" TextColor="{AppThemeBinding Light={StaticResource Gray950}, Dark=#E6E1E5}"/>
+                          Margin="5,0,5,0"
+                          TextChangedCommand="{Binding SearchCommand}"
+                          TextChangedCommandParameter="{Binding Source={x:Reference search}, Path=Text}"
+                          TextColor="{AppThemeBinding Light={StaticResource Gray950}, Dark=#E6E1E5}"/>
         </Border>
 
-        <dxg:DataGridView x:Name="dataGrid" 
-                          Grid.Row="1" 
+        <dxg:DataGridView Grid.Row="1"
+                          IsVisible="{Binding Users.Count, Converter={StaticResource IsVisibleConverter}}"
                           IsColumnHeaderVisible="False"
                           ItemsSource="{Binding Users}"
-                          SelectionMode="None" BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark=#141414}" 
-                          AllowDragDropRows="True" AllowDragDropSortedRows="True" AllowGroupCollapse="False">
+                          SelectionMode="None" 
+                          BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark=#141414}" 
+                          AllowDragDropRows="True" 
+                          AllowDragDropSortedRows="True" 
+                          AllowGroupCollapse="False"
+                          FilterString="{Binding SearchText}">
 
             <dxg:DataGridView.CellAppearance>
                 <dxg:CellAppearance BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark=#141414}" 
@@ -67,22 +82,14 @@
                                          BackgroundColor="{AppThemeBinding Light={StaticResource Gray95}, Dark={StaticResource Gray95}}" 
                                          CornerRadius="10"
                                          HorizontalContentAlignment="Start"
-                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainPageViewModel}}, Path=OpenUserProfileCommand}">
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainPageViewModel}}, Path=OpenUserProfileCommand}"
+                                         CommandParameter="{Binding Item}">
                                 <Grid ColumnDefinitions="80, *"
                                       Padding="5">
-                                    <Frame CornerRadius="40"
-                                           WidthRequest="80"
-                                           HeightRequest="80"
-                                           BorderColor="Transparent"        
-                                           Padding="-1">
-                                        <Grid>
-                                            <Image Aspect="AspectFill"
-                                                   Source="ic_anonymous.png"/>
-                                            <ffimage:CachedImage Source="{Binding Item.Avatar}"
-                                                                 Aspect="AspectFill"
-                                                                 ErrorPlaceholder="ic_anonymous.png"/>
-                                        </Grid>
-                                    </Frame>
+                                    <avatar:UserAvatar ImageSource="{Binding Item.Avatar}"
+                                                       WidthRequest="80"
+                                                       HeightRequest="80"/>
+                                    
                                     <dx:DXStackLayout Grid.Column="1"
                                                       Orientation="Vertical"
                                                       HorizontalOptions="CenterAndExpand"
@@ -112,5 +119,26 @@
                 </dxg:TemplateColumn>
             </dxg:DataGridView.Columns>
         </dxg:DataGridView>
+
+        <StackLayout Grid.Row="1"
+                     Orientation="Vertical"
+                     IsVisible="{Binding IsVisebleErrorMessage}"
+                     VerticalOptions="Center"
+                     HorizontalOptions="Center"
+                     Spacing="15">
+            <Image Source="search"
+                   WidthRequest="50"
+                   HeightRequest="50"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center">
+                <Image.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray400}"/>
+                </Image.Behaviors>
+            </Image>
+            <Label Text="{x:Static properties:Resource.ListEmpty}"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"/>
+        </StackLayout>
+        
     </Grid>
 </ContentPage>

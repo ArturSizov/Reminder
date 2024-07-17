@@ -1,4 +1,4 @@
-﻿using SDK.ViewModels.ViewModels;
+﻿using SDK.Base.ViewModels;
 
 namespace Reminder.Models
 {

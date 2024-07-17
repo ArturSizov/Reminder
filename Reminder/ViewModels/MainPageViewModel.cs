@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Microsoft.Maui;
 using Reminder.Models;
-using SDK.ViewModels;
-using SDK.ViewModels.ViewModels;
+using Reminder.Pages;
+using SDK.Base.ViewModels;
 
 namespace Reminder.ViewModels
 {
@@ -17,11 +13,30 @@ namespace Reminder.ViewModels
     public class MainPageViewModel : ViewModelBase
     {
         #region Private property
-        private string _title = "Reminder";
+
+        /// <summary>
+        /// Search by string
+        /// </summary>
+        private string? _searchText;
+
+        /// <summary>
+        /// Shows or hides the error
+        /// </summary>
+        private bool? _isVisebleErrorMessage = false;
+
         #endregion
 
         #region Public property
-        public string Title { get => _title; set => SetProperty(ref _title, value); }
+
+        /// <summary>
+        /// Search by string
+        /// </summary>
+        public string? SearchText { get => _searchText; set => SetProperty(ref _searchText, value); }
+
+        /// <summary>
+        /// Shows or hides the error
+        /// </summary>
+        public bool? IsVisebleErrorMessage { get => _isVisebleErrorMessage; set => SetProperty(ref _isVisebleErrorMessage, value); }
 
         public ObservableCollection<User> Users { get; set; } = new();
         #endregion
@@ -29,7 +44,9 @@ namespace Reminder.ViewModels
         #region Ctor
         public MainPageViewModel()
         {
-            OpenUserProfileCommand = new Command(OpenUserProfile);
+            OpenUserProfileCommand = new Command<User>(OpenUserProfile);
+
+            SearchCommand = new Command<string>(Search);
 
             Users.Add(new User
             {
@@ -61,62 +78,31 @@ namespace Reminder.ViewModels
                 MiddleName = "Артурович",
                 Avatar = "https://images.thevoicemag.ru/upload/img_cache/272/2725c992c4d156f467638a9590d68900_cropped_666x442.jpg"
             });
+
             Users.Add(new User
             {
                 Id = 3,
                 Name = "Эльмира",
                 Position = "Жена",
+                Avatar = null,
                 Birthday = DateTime.Now,
-                MiddleName = "Фликсовна",
-                Avatar = null
+                MiddleName = "Фликсовна"
             });
+
             Users.Add(new User
             {
-                Id = 3,
-                Name = "Эльмира",
-                Position = "Жена",
+                Id = 4,
+                Name = "Ленар",
+                LastName = "Шабаев",
                 Birthday = DateTime.Now,
-                MiddleName = "Фликсовна",
-                Avatar = null
+                MiddleName = "Георгиевич",
+                Avatar = "https://vdnh.ru/upload/resize_cache/iblock/601/1000_424_1/6010c3df7633397b251fa9ccddf89830.jpg"
             });
-            Users.Add(new User
-            {
-                Id = 3,
-                Name = "Эльмира",
-                Position = "Жена",
-                Birthday = DateTime.Now,
-                MiddleName = "Фликсовна",
-                Avatar = null
-            });
-            Users.Add(new User
-            {
-                Id = 3,
-                Name = "Эльмира",
-                Position = "Жена",
-                Birthday = DateTime.Now,
-                MiddleName = "Фликсовна",
-                Avatar = null
-            });
-            Users.Add(new User
-            {
-                Id = 3,
-                Name = "Эльмира",
-                Position = "Жена",
-                Birthday = DateTime.Now,
-                MiddleName = "Фликсовна",
-                Avatar = null
-            });
-            Users.Add(new User
-            {
-                Id = 3,
-                Name = "Эльмира",
-                Position = "Жена",
-                Birthday = DateTime.Now,
-                MiddleName = "Фликсовна",
-                Avatar = null
-            });
+
+            if (Users.Count == 0)
+                IsVisebleErrorMessage = true;
         }
-     
+
         #endregion
 
         #region Commands
@@ -125,9 +111,44 @@ namespace Reminder.ViewModels
         /// </summary>
         public ICommand OpenUserProfileCommand { get; }
 
-        private void OpenUserProfile(object obj)
+        /// <summary>
+        /// Opens profile
+        /// </summary>
+        /// <param name="user"></param>
+        private async void OpenUserProfile(User user)
         {
-            
+            await Shell.Current.GoToAsync(nameof(UserProfilePage), new Dictionary<string, object>
+            {
+                { nameof(UserProfilePage), new User
+                    {
+                        Name = user.Name,
+                        Avatar = user.Avatar,
+                        Birthday = user.Birthday,
+                        LastName = user.LastName,
+                        MiddleName = user.MiddleName,
+                        Position = user.Position,
+                        Id = user.Id
+                    }
+                }});
+
+        }
+
+        /// <summary>
+        /// Search by first name, last name, patronymic
+        /// </summary>
+        public ICommand SearchCommand { get; }
+
+        /// <summary>
+        /// Filters the list by entered text
+        /// </summary>
+        /// <param name="str"></param>
+        private void Search(string str)
+        {
+            SearchText = $"Contains([Name], '{str}') or Contains([LastName], '{str}') or Contains([MiddleName], '{str}')";
+
+            IsVisebleErrorMessage = !Users.Any(u =>(u.Name != null && u.Name.Contains(str, StringComparison.CurrentCultureIgnoreCase)) 
+                || u.LastName != null && u.LastName.Contains(str, StringComparison.CurrentCultureIgnoreCase)
+                || u.MiddleName != null && u.MiddleName.Contains(str, StringComparison.CurrentCultureIgnoreCase));
         }
         #endregion
     }
