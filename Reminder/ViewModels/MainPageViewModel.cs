@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Microsoft.Maui;
+using Reminder.Managers;
 using Reminder.Models;
 using Reminder.Pages;
+using Reminder.Resources.Themes;
 using SDK.Base.ViewModels;
 
 namespace Reminder.ViewModels
@@ -38,15 +40,18 @@ namespace Reminder.ViewModels
         /// </summary>
         public bool? IsVisebleErrorMessage { get => _isVisebleErrorMessage; set => SetProperty(ref _isVisebleErrorMessage, value); }
 
+
         public ObservableCollection<User> Users { get; set; } = new();
         #endregion
 
         #region Ctor
         public MainPageViewModel()
         {
-            OpenUserProfileCommand = new Command<User>(OpenUserProfile);
+            OpenUserProfileCommand = new Command<User>(OpenUserProfileAsync);
 
             SearchCommand = new Command<string>(Search);
+
+            AddUserCommand = new Command(OnAddUserAsync);
 
             Users.Add(new User
             {
@@ -78,7 +83,6 @@ namespace Reminder.ViewModels
                 MiddleName = "Артурович",
                 Avatar = "https://images.thevoicemag.ru/upload/img_cache/272/2725c992c4d156f467638a9590d68900_cropped_666x442.jpg"
             });
-
             Users.Add(new User
             {
                 Id = 3,
@@ -88,7 +92,60 @@ namespace Reminder.ViewModels
                 Birthday = DateTime.Now,
                 MiddleName = "Фликсовна"
             });
-
+            Users.Add(new User
+            {
+                Id = 3,
+                Name = "Эльмира",
+                Position = "Жена",
+                Avatar = null,
+                Birthday = DateTime.Now,
+                MiddleName = "Фликсовна"
+            });
+            Users.Add(new User
+            {
+                Id = 3,
+                Name = "Эльмира",
+                Position = "Жена",
+                Avatar = null,
+                Birthday = DateTime.Now,
+                MiddleName = "Фликсовна"
+            });
+            Users.Add(new User
+            {
+                Id = 3,
+                Name = "Эльмира",
+                Position = "Жена",
+                Avatar = null,
+                Birthday = DateTime.Now,
+                MiddleName = "Фликсовна"
+            });
+            Users.Add(new User
+            {
+                Id = 3,
+                Name = "Эльмира",
+                Position = "Жена",
+                Avatar = null,
+                Birthday = DateTime.Now,
+                MiddleName = "Фликсовна"
+            });
+            Users.Add(new User
+            {
+                Id = 3,
+                Name = "Эльмира",
+                Position = "Жена",
+                Avatar = null,
+                Birthday = DateTime.Now,
+                MiddleName = "Фликсовна"
+            });
+            Users.Add(new User
+            {
+                Id = 3,
+                Name = "Эльмира",
+                Position = "Жена",
+                Avatar = null,
+                Birthday = DateTime.Now,
+                MiddleName = "Фликсовна"
+            });
             Users.Add(new User
             {
                 Id = 4,
@@ -115,7 +172,7 @@ namespace Reminder.ViewModels
         /// Opens profile
         /// </summary>
         /// <param name="user"></param>
-        private async void OpenUserProfile(User user)
+        private async void OpenUserProfileAsync(User user)
         {
             await Shell.Current.GoToAsync(nameof(UserProfilePage), new Dictionary<string, object>
             {
@@ -149,6 +206,18 @@ namespace Reminder.ViewModels
             IsVisebleErrorMessage = !Users.Any(u =>(u.Name != null && u.Name.Contains(str, StringComparison.CurrentCultureIgnoreCase)) 
                 || u.LastName != null && u.LastName.Contains(str, StringComparison.CurrentCultureIgnoreCase)
                 || u.MiddleName != null && u.MiddleName.Contains(str, StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        public ICommand AddUserCommand { get; }
+
+        private async void OnAddUserAsync(object obj)
+        {
+            await Shell.Current.GoToAsync(nameof(UserProfilePage));
+
+            //if(ThemeManager.SelectedTheme == nameof(Light))
+            //    ThemeManager.SetTheme(nameof(Dark));
+            //else 
+            //    ThemeManager.SetTheme(nameof(Light));
         }
         #endregion
     }

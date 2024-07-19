@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using DevExpress.Maui;
+using DevExpress.Maui.Core;
 using FFImageLoading.Maui;
 using Microsoft.Extensions.Logging;
 using Reminder.IoCModules;
@@ -10,12 +11,15 @@ namespace Reminder
     {
         public static MauiApp CreateMauiApp()
         {
+            ThemeManager.UseAndroidSystemColor = false;
+            ThemeManager.Theme = new Theme(Color.FromArgb("#ACACAC"));
+
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
                 .UseServices()
                 .UseMauiCommunityToolkit()
-                .UseDevExpress(true)
+                .UseDevExpress(useLocalization: true)
                 .UseDevExpressCharts()
                 .UseDevExpressCollectionView()
                 .UseDevExpressControls()

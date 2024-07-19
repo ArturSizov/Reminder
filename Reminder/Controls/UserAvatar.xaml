@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Frame xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:ffimage="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
-       xmlns:converter="clr-namespace:Reminder.Converters"
-       x:Class="Reminder.Controls.UserAvatar"
-       CornerRadius="{Binding Source={RelativeSource Self}, Path=Height, Converter={StaticResource CornerRadiusConverter}}"
-       BorderColor="Transparent"        
-       Padding="-1"
-       x:Name="this">
+<dx:DXBorder xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+             xmlns:ffimage="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:converter="clr-namespace:Reminder.Converters"
+             x:Class="Reminder.Controls.UserAvatar"
+             CornerRadius="{Binding Source={RelativeSource Self}, Path=Height, Converter={StaticResource CornerRadiusConverter}}"
+             BorderColor="Transparent"        
+             Padding="-1"
+             x:Name="this">
 
-    <Frame.Resources>
-        <converter:CornerRadiusConverter x:Key="CornerRadiusConverter"/>
-    </Frame.Resources>
-    
     <Grid>
         <Image Aspect="AspectFill"
                Source="ic_anonymous.png"/>
@@ -21,4 +18,4 @@
                              Aspect="AspectFill"
                              ErrorPlaceholder="ic_anonymous.png"/>
     </Grid>
-</Frame>
+</dx:DXBorder>

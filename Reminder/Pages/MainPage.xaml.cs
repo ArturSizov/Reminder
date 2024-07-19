@@ -1,6 +1,4 @@
-﻿using DevExpress.Maui.Editors;
-
-namespace Reminder.Pages
+﻿namespace Reminder.Pages
 {
     public partial class MainPage
     {

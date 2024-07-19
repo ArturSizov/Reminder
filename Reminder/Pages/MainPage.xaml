@@ -31,7 +31,7 @@
     <Grid RowDefinitions="45, *">
         <Border StrokeThickness="0" 
                 Stroke="Transparent" 
-                Background="Transparent"
+                Background="{AppThemeBinding Light={StaticResource Gray95}, Dark={StaticResource Gray950}}"
                 IsVisible="{Binding Users.Count, Converter={StaticResource IsVisibleConverter}}">
             <dxe:TextEdit x:Name="search"
                           EndIcon="search" 
@@ -79,7 +79,7 @@
                     <dxg:TemplateColumn.DisplayTemplate>
                         <DataTemplate>
                             <dx:DXButton Padding="5" 
-                                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray95}, Dark={StaticResource Gray95}}" 
+                                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray95}, Dark={StaticResource Gray950}}" 
                                          CornerRadius="10"
                                          HorizontalContentAlignment="Start"
                                          Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainPageViewModel}}, Path=OpenUserProfileCommand}"
