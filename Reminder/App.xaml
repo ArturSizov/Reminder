@@ -3,15 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Reminder"
              xmlns:converters="clr-namespace:Reminder.Converters"
+             xmlns:themes="clr-namespace:SDK.Base.Themes;assembly=SDK.Base"
              x:Class="Reminder.App">
     
     <Application.Resources>
         <ResourceDictionary>
             <converters:CornerRadiusConverter x:Key="CornerRadiusConverter"/>
             <converters:IsVisibleConverter x:Key="IsVisibleConverter"/>
+            <converters:StatusBarStyleConverter x:Key="StatusBarStyleConverter"/>
+            <converters:LabelMarginConverter x:Key="LabelMarginConverter"/>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Themes/Dark.xaml"/>
-                <ResourceDictionary Source="Resources/Themes/Light.xaml"/>
+                <themes:Dark/>
+                <themes:Light/>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>

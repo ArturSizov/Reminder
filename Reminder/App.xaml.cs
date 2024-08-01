@@ -1,4 +1,6 @@
-﻿using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
+﻿using CommunityToolkit.Maui.Extensions;
+using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
+
 
 namespace Reminder
 {
@@ -9,7 +11,6 @@ namespace Reminder
             InitializeComponent();
 
             MainPage = shell;
-
             //Solves the problem with displaying the virtual keyboard on Android
 
 #if ANDROID

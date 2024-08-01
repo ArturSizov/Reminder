@@ -5,6 +5,7 @@
              xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
              xmlns:ffimage="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
              xmlns:vm="clr-namespace:Reminder.ViewModels"
              xmlns:converters="clr-namespace:Reminder.Converters"
              xmlns:avatar="clr-namespace:Reminder.Controls"        
@@ -12,133 +13,104 @@
              xmlns:properties="clr-namespace:SDK.Base.Properties;assembly=SDK.Base"
              ios:Page.UseSafeArea="true"
              x:Class="Reminder.Pages.MainPage"
-             Shell.NavBarIsVisible="False" 
-             BackgroundColor="{StaticResource Gray95}" 
-             Background="{AppThemeBinding Light={StaticResource Gray95}, Dark=#1D1A22}">
+             xmlns:droid="clr-namespace:CommunityToolkit.Maui.PlatformConfiguration.AndroidSpecific;assembly=CommunityToolkit.Maui"
+             droid:NavigationBar.Color="{Binding StatusBarColor}"
+             Shell.NavBarIsVisible="True">
 
-    <ContentPage.BindingContext>
-        <vm:MainPageViewModel/>
-    </ContentPage.BindingContext>
+    <Page.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="{Binding StatusBarColor}" 
+                               StatusBarStyle="{Binding StatusBarColor, Converter={StaticResource StatusBarStyleConverter}}"/>
+    </Page.Behaviors>
 
-    <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior StatusBarColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Gray950}}" StatusBarStyle="DarkContent" />
-    </ContentPage.Behaviors>
-    
     <ContentPage.Resources>
         <converters:IsVisibleConverter x:Key="IsVisibleConverter"/>
     </ContentPage.Resources>
-    
-    <Grid RowDefinitions="45, *">
-        <Border StrokeThickness="0" 
-                Stroke="Transparent" 
-                Background="{AppThemeBinding Light={StaticResource Gray95}, Dark={StaticResource Gray950}}"
-                IsVisible="{Binding Users.Count, Converter={StaticResource IsVisibleConverter}}">
-            <dxe:TextEdit x:Name="search"
-                          EndIcon="search" 
-                          PlaceholderText="{x:Static properties:Resource.Search}" 
-                          TextFontSize="14" 
-                          ClearIconColor="{StaticResource Gray300}" 
-                          TextVerticalAlignment="Center" 
-                          BackgroundColor="{AppThemeBinding Light=White, Dark=#322F37}" 
-                          BorderThickness="1" 
-                          BorderColor="{AppThemeBinding Light=#DCD8E0, Dark=#938F99}" 
-                          BoxPadding="20,6,10,6" 
-                          PlaceholderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark=#938F99}" 
-                          EndIconColor="{AppThemeBinding Light={StaticResource Gray300}, Dark=#CAC4D0}" 
-                          FocusedBorderColor="Transparent" 
-                          CornerRadius="16" 
-                          HeightRequest="35" 
-                          Margin="5,0,5,0"
-                          TextChangedCommand="{Binding SearchCommand}"
-                          TextChangedCommandParameter="{Binding Source={x:Reference search}, Path=Text}"
-                          TextColor="{AppThemeBinding Light={StaticResource Gray950}, Dark=#E6E1E5}"/>
-        </Border>
 
-        <dxg:DataGridView Grid.Row="1"
+    <Shell.TitleView>
+        <Border StrokeThickness="0" 
+                Stroke="Transparent"
+                IsVisible="{Binding Users.Count, Converter={StaticResource IsVisibleConverter}}"
+                Padding="0,0,10,0">
+
+            <dxe:TextEdit x:Name="search"
+                  EndIcon="search" 
+                  PlaceholderText="{x:Static properties:Resource.Search}" 
+                  BorderThickness="1" 
+                  BoxPadding="20,6,10,6"
+                  FocusedBorderColor="Transparent" 
+                  CornerRadius="16" 
+                  HeightRequest="35" 
+                  Margin="5,0,5,0"
+                  TextChangedCommand="{Binding SearchCommand}"
+                  TextChangedCommandParameter="{Binding Source={x:Reference search}, Path=Text}"/>
+        </Border>
+    </Shell.TitleView>
+
+    <Grid RowDefinitions="*, 45">
+        <dxg:DataGridView Grid.Row="0"
                           IsVisible="{Binding Users.Count, Converter={StaticResource IsVisibleConverter}}"
                           IsColumnHeaderVisible="False"
                           ItemsSource="{Binding Users}"
-                          SelectionMode="None" 
-                          BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark=#141414}" 
+                          SelectionMode="None"  
                           AllowDragDropRows="True" 
                           AllowDragDropSortedRows="True" 
                           AllowGroupCollapse="False"
                           FilterString="{Binding SearchText}">
 
             <dxg:DataGridView.CellAppearance>
-                <dxg:CellAppearance BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark=#141414}" 
+                <dxg:CellAppearance BackgroundColor="{DynamicResource Primary}"
                                     HorizontalLineThickness="0"/>
             </dxg:DataGridView.CellAppearance>
-
             <dxg:DataGridView.Columns>
                 <dxg:TemplateColumn SortOrder="Ascending" 
                                     IsGrouped="True" 
                                     GroupInterval="Alphabetical" 
-                                    BackgroundColor="Transparent"
                                     LineBreakMode="TailTruncation">
                     <dxg:TemplateColumn.DisplayTemplate>
                         <DataTemplate>
-                            <dx:DXButton Padding="5" 
-                                         BackgroundColor="{AppThemeBinding Light={StaticResource Gray95}, Dark={StaticResource Gray950}}" 
-                                         CornerRadius="10"
-                                         HorizontalContentAlignment="Start"
-                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainPageViewModel}}, Path=OpenUserProfileCommand}"
-                                         CommandParameter="{Binding Item}">
-                                <Grid ColumnDefinitions="80, *"
-                                      Padding="5">
-                                    <avatar:UserAvatar ImageSource="{Binding Item.Avatar}"
-                                                       WidthRequest="80"
-                                                       HeightRequest="80"/>
-                                    
-                                    <dx:DXStackLayout Grid.Column="1"
-                                                      Orientation="Vertical"
-                                                      HorizontalOptions="CenterAndExpand"
-                                                      VerticalOptions="CenterAndExpand"
-                                                      Padding="5">
-                                        <dx:DXStackLayout Orientation="Horizontal"  
-                                                          VerticalOptions="End">
-                                            <Label Text="{Binding Item.LastName}" 
-                                                   TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark=#E6E1E5}" 
-                                                   FontAttributes="Bold"/>
-                                            <Label Text="{Binding Item.Name}" 
-                                                   Margin="5,0,0,0" TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark=#E6E1E5}" 
-                                                   FontAttributes="Bold"/>
-                                            <Label Text="{Binding Item.MiddleName}" 
-                                                   Margin="5,0,0,0" TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark=#E6E1E5}" 
-                                                   FontAttributes="Bold"/>
-                                        </dx:DXStackLayout>
-                                        <Label Text="{Binding Item.Position}" 
-                                               TextColor="{StaticResource Gray400}" 
-                                               LineBreakMode="TailTruncation" 
-                                               VerticalOptions="Start"/>
-                                    </dx:DXStackLayout>
-                                </Grid>
-                            </dx:DXButton>
+                            <Grid ColumnDefinitions="80, *"
+                                  Padding="5">
+                                <avatar:UserAvatar Grid.Row="0"
+                                                   ImageSource="{Binding Item.Avatar}"
+                                                   WidthRequest="80"
+                                                   HeightRequest="80"/>
+
+                                <StackLayout Grid.Column="1"
+                                             Orientation="Vertical"
+                                             HorizontalOptions="Start"
+                                             VerticalOptions="CenterAndExpand"
+                                             Padding="5">
+                                    <StackLayout Orientation="Horizontal"  
+                                                 VerticalOptions="End">
+                                        <Label Text="{Binding Item.LastName}"
+                                               FontAttributes="Bold"
+                                               TextColor="{DynamicResource TextColor}"
+                                               Margin="{Binding Item.LastName, Converter={StaticResource LabelMarginConverter}}"/>
+                                        <Label Text="{Binding Item.Name}"
+                                               FontAttributes="Bold"
+                                               TextColor="{DynamicResource TextColor}"
+                                               Margin="{Binding Item.Name, Converter={StaticResource LabelMarginConverter}}"/>
+                                        <Label Text="{Binding Item.MiddleName}" 
+                                               FontAttributes="Bold"
+                                               TextColor="{DynamicResource TextColor}"
+                                               Margin="{Binding Item.MiddleName, Converter={StaticResource LabelMarginConverter}}"/>
+                                    </StackLayout>
+                                    <Label Text="{Binding Item.Position}" 
+                                           Margin="5,0,0,0"
+                                           TextColor="{DynamicResource PositionColor}" 
+                                           LineBreakMode="TailTruncation" 
+                                           VerticalOptions="Start"/>
+                                </StackLayout>
+                            </Grid>
                         </DataTemplate>
                     </dxg:TemplateColumn.DisplayTemplate>
                 </dxg:TemplateColumn>
             </dxg:DataGridView.Columns>
         </dxg:DataGridView>
-
-        <StackLayout Grid.Row="1"
-                     Orientation="Vertical"
-                     IsVisible="{Binding IsVisebleErrorMessage}"
-                     VerticalOptions="Center"
-                     HorizontalOptions="Center"
-                     Spacing="15">
-            <Image Source="search"
-                   WidthRequest="50"
-                   HeightRequest="50"
-                   VerticalOptions="Center"
-                   HorizontalOptions="Center">
-                <Image.Behaviors>
-                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray400}"/>
-                </Image.Behaviors>
-            </Image>
-            <Label Text="{x:Static properties:Resource.ListEmpty}"
-                   VerticalOptions="Center"
-                   HorizontalOptions="Center"/>
-        </StackLayout>
-        
+        <dx:DXButton Grid.Row="2" 
+                     Command="{Binding AddUserCommand}"
+                     WidthRequest="150">
+            <Label Text="Ok"/>
+        </dx:DXButton>
     </Grid>
 </ContentPage>

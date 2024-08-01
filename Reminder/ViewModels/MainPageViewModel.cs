@@ -1,10 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using Reminder.Managers;
 using Reminder.Models;
 using Reminder.Pages;
 using Reminder.Resources.Themes;
+using SDK.Base.Abstractions;
 using SDK.Base.ViewModels;
 
 namespace Reminder.ViewModels
@@ -26,6 +29,16 @@ namespace Reminder.ViewModels
         /// </summary>
         private bool? _isVisebleErrorMessage = false;
 
+        /// <summary>
+        /// Themes manager
+        /// </summary>
+        private readonly IThemesManager _themesManager;
+
+        /// <summary>
+        /// Bar color
+        /// </summary>
+        private Color? _statusBarColor = Color.Parse("#141414");
+
         #endregion
 
         #region Public property
@@ -40,13 +53,22 @@ namespace Reminder.ViewModels
         /// </summary>
         public bool? IsVisebleErrorMessage { get => _isVisebleErrorMessage; set => SetProperty(ref _isVisebleErrorMessage, value); }
 
+        /// <summary>
+        /// Bar color
+        /// </summary>
+        public Color? StatusBarColor { get => _statusBarColor; set => SetProperty(ref _statusBarColor, value); }
 
         public ObservableCollection<User> Users { get; set; } = new();
         #endregion
 
         #region Ctor
-        public MainPageViewModel()
+        public MainPageViewModel(IThemesManager themesManager)
         {
+            if (Application.Current != null)
+                Application.Current.RequestedThemeChanged += Current_RequestedThemeChanged;
+
+            _themesManager = themesManager;
+
             OpenUserProfileCommand = new Command<User>(OpenUserProfileAsync);
 
             SearchCommand = new Command<string>(Search);
@@ -160,6 +182,22 @@ namespace Reminder.ViewModels
                 IsVisebleErrorMessage = true;
         }
 
+        private void Current_RequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
+        {
+            //await Shell.Current.DisplayAlert("Тема", $"Выбранная тема: {e.RequestedTheme}", "Ok");
+
+            if (e.RequestedTheme == AppTheme.Dark)
+            {
+                _themesManager.SetTheme(nameof(Dark));
+                StatusBarColor = Color.Parse("#141414");
+            }
+            else
+            {
+                _themesManager.SetTheme(nameof(Light));
+                StatusBarColor = Color.Parse("#f2f2f2");
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -208,16 +246,25 @@ namespace Reminder.ViewModels
                 || u.MiddleName != null && u.MiddleName.Contains(str, StringComparison.CurrentCultureIgnoreCase));
         }
 
+        /// <summary>
+        /// Add user command
+        /// </summary>
         public ICommand AddUserCommand { get; }
 
-        private async void OnAddUserAsync(object obj)
+        private void OnAddUserAsync(object obj)
         {
-            await Shell.Current.GoToAsync(nameof(UserProfilePage));
+            //await Shell.Current.GoToAsync(nameof(UserProfilePage));
 
-            //if(ThemeManager.SelectedTheme == nameof(Light))
-            //    ThemeManager.SetTheme(nameof(Dark));
-            //else 
-            //    ThemeManager.SetTheme(nameof(Light));
+            if (_themesManager.SelectedTheme == nameof(Light))
+            {
+                _themesManager.SetTheme(nameof(Dark));
+                StatusBarColor = Color.Parse("#141414");
+            }
+            else
+            {
+                _themesManager.SetTheme(nameof(Light));
+                StatusBarColor = Color.Parse("#f2f2f2");
+            }
         }
         #endregion
     }

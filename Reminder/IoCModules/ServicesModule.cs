@@ -1,4 +1,7 @@
-﻿namespace Reminder.IoCModules
+﻿using SDK.Base.Themes;
+using SDK.Base.Abstractions;
+
+namespace Reminder.IoCModules
 {
     /// <summary>
     /// Services Ioc
@@ -11,7 +14,7 @@
         /// <param name="services"></param>
         public static void UseCommonServices(this IServiceCollection services)
         {
-
+            services.AddSingleton<IThemesManager, ThemesManager>();
         }
 
     }

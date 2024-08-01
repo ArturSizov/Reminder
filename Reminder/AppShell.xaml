@@ -1,13 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="Reminder.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Reminder.Pages"
-    Shell.FlyoutBehavior="Disabled">
+<Shell x:Class="Reminder.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:Reminder.Pages"
+       xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+       xmlns:vm="clr-namespace:Reminder.ViewModels"
+       xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+       xmlns:controls="clr-namespace:Reminder.Controls"
+       Shell.FlyoutBehavior="Flyout"
+       Shell.ForegroundColor="{DynamicResource FlyoutIconColor}"
+       Shell.BackgroundColor="{DynamicResource Primary}"
+       Shell.FlyoutBackgroundColor="{DynamicResource Primary}"
+       FlyoutIsPresented="{Binding FlyoutIsPresented}"
+       x:DataType="vm:AppShellViewModel">
 
     <ShellContent
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="MainPage"/>
+    
+    <Shell.FlyoutHeader>
+        <Grid ColumnDefinitions="Auto,*"
+              BackgroundColor="{DynamicResource Primary}"
+              ColumnSpacing="15">
+            <Image Grid.Column="0"
+                   Source="timelapse.png"
+                   Aspect="AspectFill"
+                   HeightRequest="100"
+                   WidthRequest="100"
+                   Opacity="15">
 
+                <Image.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{DynamicResource MainIconColor}" />
+                </Image.Behaviors>
+            </Image>
+            <Label Grid.Column="1"
+                   Text="{Binding Title}" 
+                   HorizontalOptions="StartAndExpand" 
+                   VerticalOptions="CenterAndExpand"
+                   FontAttributes="Bold"
+                   FontSize="30"
+                   FontFamily="Inkfree"/>
+        </Grid>
+    </Shell.FlyoutHeader>
+    
+    <!--Content-->
+    <Shell.FlyoutContent>
+        <StackLayout Orientation="Vertical"
+                     Padding="2"
+                     Spacing="5">
+            <controls:MenuButtonControl ImageSource="settings"
+                                        Text="Настройки" 
+                                        Command="{Binding OpenPageCommand}"
+                                        CommandParameter="UserProfilePage"/>
+        </StackLayout>
+    </Shell.FlyoutContent>
 </Shell>
+
+

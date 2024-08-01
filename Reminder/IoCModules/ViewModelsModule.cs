@@ -13,6 +13,7 @@ namespace Reminder.IoCModules
         /// <param name="services"></param>
         public static void UseViewModules(this IServiceCollection services)
         {
+            services.AddTransient<AppShellViewModel>();
             services.AddTransient<MainPageViewModel>();
             services.AddTransient<UserProfilePageViewModel>();
         }

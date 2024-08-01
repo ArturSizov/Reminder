@@ -1,8 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <?xaml-comp compile="true" ?>
 <ResourceDictionary 
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+     xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+     xmlns:dxg="clr-namespace:DevExpress.Maui.DataGrid;assembly=DevExpress.Maui.DataGrid"
+     xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core">
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
@@ -14,7 +17,8 @@
     </Style>
 
     <Style TargetType="Border">
-        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="Stroke" Value="{DynamicResource BorderColor}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource Primary}"/>
         <Setter Property="StrokeShape" Value="Rectangle"/>
         <Setter Property="StrokeThickness" Value="1"/>
     </Style>
@@ -24,8 +28,8 @@
     </Style>
 
     <Style TargetType="Button">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Primary}}" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource ButtonColor}" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="CornerRadius" Value="8"/>
@@ -38,8 +42,8 @@
                     <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
-                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}" />
+                            <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource ButtonColor}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -131,8 +135,9 @@
     </Style>
 
     <Style TargetType="Frame">
+        <Setter Property="BackgroundColor" Value="{DynamicResource FlyoutMenuColor}"/>
         <Setter Property="HasShadow" Value="False" />
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
+        <Setter Property="BorderColor" Value="Transparent" />
         <Setter Property="CornerRadius" Value="8" />
     </Style>
 
@@ -158,7 +163,7 @@
     </Style>
 
     <Style TargetType="Label">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
@@ -321,6 +326,10 @@
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
     </Style>
 
+    <Style TargetType="Grid">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Primary}" />
+    </Style>
+
     <Style TargetType="Switch">
         <Setter Property="OnColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
         <Setter Property="ThumbColor" Value="{StaticResource White}" />
@@ -373,7 +382,7 @@
 
     <Style TargetType="Page" ApplyToDerivedTypes="True">
         <Setter Property="Padding" Value="0"/>
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource Primary}" />
     </Style>
 
     <Style TargetType="Shell" ApplyToDerivedTypes="True">
@@ -400,6 +409,30 @@
         <Setter Property="BarTextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
         <Setter Property="UnselectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
         <Setter Property="SelectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
+    </Style>
+
+    <!--Custom Style-->
+    <Style Class="MenuItemLayoutStyle" TargetType="Layout" ApplyToDerivedTypes="True">
+        <Setter Property="BackgroundColor" Value="Red"/>
+    </Style>
+    <!--DevExpress Style-->
+    <Style TargetType="dxe:TextEdit">
+        <Setter Property="TextFontSize" Value="14"/>
+        <Setter Property="ClearIconColor" Value="#ACACAC"/>
+        <Setter Property="TextVerticalAlignment" Value="Center"/>
+        <Setter Property="BackgroundColor" Value="{DynamicResource DevTextEditColor}"/>
+        <Setter Property="BorderColor" Value="{DynamicResource DevTextEditBorderColor}"/>
+        <Setter Property="PlaceholderColor" Value="{DynamicResource DevTextEditPlaceholderColor}"/>
+        <Setter Property="EndIconColor" Value="{DynamicResource DevEndIconColor}"/>
+        <Setter Property="TextColor" Value="{DynamicResource TextColor}"/>
+    </Style>
+
+    <Style TargetType="dx:DXButton">
+        <Setter Property="BackgroundColor" Value="{DynamicResource ButtonColor}"/>
+    </Style>
+
+    <Style TargetType="dxg:DataGridView">
+        <Setter Property="BackgroundColor" Value="{DynamicResource DevDataGridViewColor}"/>
     </Style>
 
 </ResourceDictionary>

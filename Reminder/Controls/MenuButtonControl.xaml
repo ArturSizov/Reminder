@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Frame xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+       x:Class="Reminder.Controls.MenuButtonControl"
+       BackgroundColor="{DynamicResource ButtonColor}"
+       CornerRadius="10"
+       HeightRequest="80"
+       x:Name="button">
+
+    <StackLayout Orientation="Horizontal"
+                 Spacing="10">
+        <Image Source="{Binding Source={x:Reference button}, Path=ImageSource}"
+               WidthRequest="40">
+            <Image.Behaviors>
+                <toolkit:IconTintColorBehavior TintColor="#056b05"/>
+            </Image.Behaviors>
+        </Image>
+
+        <Label Text="{Binding Source={x:Reference button}, Path=Text}"
+               VerticalOptions="CenterAndExpand"/>
+    </StackLayout>
+    
+    <Frame.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding Source={x:Reference button}, Path=Command}"
+                              CommandParameter="{Binding Source={x:Reference button}, Path=CommandParameter}"/>
+    </Frame.GestureRecognizers>
+</Frame>

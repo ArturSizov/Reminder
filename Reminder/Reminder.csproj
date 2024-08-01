@@ -41,11 +41,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Fonts\Inkfree.ttf" />
 	  <None Remove="Resources\Images\delete.svg" />
 	  <None Remove="Resources\Images\editorsname.svg" />
 	  <None Remove="Resources\Images\ic_anonymous.png" />
 	  <None Remove="Resources\Images\person_add.svg" />
 	  <None Remove="Resources\Images\search.svg" />
+	  <None Remove="Resources\Images\settings.png" />
+	  <None Remove="Resources\Images\timelapse.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -80,6 +83,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Controls\MenuButtonControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\UserAvatar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
