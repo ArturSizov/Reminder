@@ -1,4 +1,3 @@
-using DevExpress.Maui.Core;
 using System.Windows.Input;
 
 namespace Reminder.Controls;

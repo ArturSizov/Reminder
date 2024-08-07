@@ -1,13 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using DevExpress.Maui.Core;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Reminder.Managers;
 using Reminder.Models;
 using Reminder.Pages;
-using Reminder.Resources.Themes;
 using SDK.Base.Abstractions;
+using SDK.Base.Themes;
 using SDK.Base.ViewModels;
 
 namespace Reminder.ViewModels
@@ -34,11 +35,6 @@ namespace Reminder.ViewModels
         /// </summary>
         private readonly IThemesManager _themesManager;
 
-        /// <summary>
-        /// Bar color
-        /// </summary>
-        private Color? _statusBarColor = Color.Parse("#141414");
-
         #endregion
 
         #region Public property
@@ -52,11 +48,6 @@ namespace Reminder.ViewModels
         /// Shows or hides the error
         /// </summary>
         public bool? IsVisebleErrorMessage { get => _isVisebleErrorMessage; set => SetProperty(ref _isVisebleErrorMessage, value); }
-
-        /// <summary>
-        /// Bar color
-        /// </summary>
-        public Color? StatusBarColor { get => _statusBarColor; set => SetProperty(ref _statusBarColor, value); }
 
         public ObservableCollection<User> Users { get; set; } = new();
         #endregion
@@ -188,13 +179,11 @@ namespace Reminder.ViewModels
 
             if (e.RequestedTheme == AppTheme.Dark)
             {
-                _themesManager.SetTheme(nameof(Dark));
-                StatusBarColor = Color.Parse("#141414");
+                
             }
             else
             {
-                _themesManager.SetTheme(nameof(Light));
-                StatusBarColor = Color.Parse("#f2f2f2");
+                
             }
         }
 
@@ -255,16 +244,16 @@ namespace Reminder.ViewModels
         {
             //await Shell.Current.GoToAsync(nameof(UserProfilePage));
 
-            if (_themesManager.SelectedTheme == nameof(Light))
-            {
-                _themesManager.SetTheme(nameof(Dark));
-                StatusBarColor = Color.Parse("#141414");
-            }
-            else
-            {
-                _themesManager.SetTheme(nameof(Light));
-                StatusBarColor = Color.Parse("#f2f2f2");
-            }
+            //if (_themesManager.SelectedTheme == nameof(Light))
+            //{
+            //    _themesManager.SetTheme(nameof(Dark));
+            //}
+            //else
+            //{
+            //    _themesManager.SetTheme(nameof(Light));
+            //}
+
+            //_themesManager.SetTheme(AppTheme.Dark);
         }
         #endregion
     }

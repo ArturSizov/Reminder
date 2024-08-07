@@ -1,26 +1,16 @@
-﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dxg="clr-namespace:DevExpress.Maui.DataGrid;assembly=DevExpress.Maui.DataGrid"
-             xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
-             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
-             xmlns:ffimage="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
-             xmlns:vm="clr-namespace:Reminder.ViewModels"
-             xmlns:converters="clr-namespace:Reminder.Converters"
-             xmlns:avatar="clr-namespace:Reminder.Controls"        
-             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
-             xmlns:properties="clr-namespace:SDK.Base.Properties;assembly=SDK.Base"
-             ios:Page.UseSafeArea="true"
-             x:Class="Reminder.Pages.MainPage"
-             xmlns:droid="clr-namespace:CommunityToolkit.Maui.PlatformConfiguration.AndroidSpecific;assembly=CommunityToolkit.Maui"
-             droid:NavigationBar.Color="{Binding StatusBarColor}"
-             Shell.NavBarIsVisible="True">
-
-    <Page.Behaviors>
-        <mct:StatusBarBehavior StatusBarColor="{Binding StatusBarColor}" 
-                               StatusBarStyle="{Binding StatusBarColor, Converter={StaticResource StatusBarStyleConverter}}"/>
-    </Page.Behaviors>
+﻿<base:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:base="clr-namespace:Reminder.Pages"
+               xmlns:dxg="clr-namespace:DevExpress.Maui.DataGrid;assembly=DevExpress.Maui.DataGrid"
+               xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+               xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+               xmlns:ffimage="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+               xmlns:vm="clr-namespace:Reminder.ViewModels"
+               xmlns:converters="clr-namespace:Reminder.Converters"
+               xmlns:avatar="clr-namespace:Reminder.Controls"        
+               xmlns:properties="clr-namespace:SDK.Base.Properties;assembly=SDK.Base"
+               x:Class="Reminder.Pages.MainPage"
+               Shell.NavBarIsVisible="True">
 
     <ContentPage.Resources>
         <converters:IsVisibleConverter x:Key="IsVisibleConverter"/>
@@ -37,7 +27,7 @@
                   PlaceholderText="{x:Static properties:Resource.Search}" 
                   BorderThickness="1" 
                   BoxPadding="20,6,10,6"
-                  FocusedBorderColor="Transparent" 
+                  FocusedBorderColor="{dx:ThemeNeutralColor Light=0, Dark=30}" 
                   CornerRadius="16" 
                   HeightRequest="35" 
                   Margin="5,0,5,0"
@@ -58,8 +48,7 @@
                           FilterString="{Binding SearchText}">
 
             <dxg:DataGridView.CellAppearance>
-                <dxg:CellAppearance BackgroundColor="{DynamicResource Primary}"
-                                    HorizontalLineThickness="0"/>
+                <dxg:CellAppearance HorizontalLineThickness="0"/>
             </dxg:DataGridView.CellAppearance>
             <dxg:DataGridView.Columns>
                 <dxg:TemplateColumn SortOrder="Ascending" 
@@ -113,4 +102,4 @@
             <Label Text="Ok"/>
         </dx:DXButton>
     </Grid>
-</ContentPage>
+</base:BasePage>

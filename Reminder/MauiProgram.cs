@@ -11,7 +11,6 @@ namespace Reminder
     {
         public static MauiApp CreateMauiApp()
         {
-            ThemeManager.UseAndroidSystemColor = false;
             ThemeManager.Theme = new Theme(Color.FromArgb("#ACACAC"));
 
             var builder = MauiApp.CreateBuilder();

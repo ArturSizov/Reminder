@@ -5,12 +5,9 @@
        xmlns:local="clr-namespace:Reminder.Pages"
        xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
        xmlns:vm="clr-namespace:Reminder.ViewModels"
-       xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
        xmlns:controls="clr-namespace:Reminder.Controls"
+       xmlns:properties="clr-namespace:SDK.Base.Properties;assembly=SDK.Base"
        Shell.FlyoutBehavior="Flyout"
-       Shell.ForegroundColor="{DynamicResource FlyoutIconColor}"
-       Shell.BackgroundColor="{DynamicResource Primary}"
-       Shell.FlyoutBackgroundColor="{DynamicResource Primary}"
        FlyoutIsPresented="{Binding FlyoutIsPresented}"
        x:DataType="vm:AppShellViewModel">
 
@@ -20,7 +17,6 @@
     
     <Shell.FlyoutHeader>
         <Grid ColumnDefinitions="Auto,*"
-              BackgroundColor="{DynamicResource Primary}"
               ColumnSpacing="15">
             <Image Grid.Column="0"
                    Source="timelapse.png"
@@ -30,7 +26,7 @@
                    Opacity="15">
 
                 <Image.Behaviors>
-                    <toolkit:IconTintColorBehavior TintColor="{DynamicResource MainIconColor}" />
+                    <toolkit:IconTintColorBehavior TintColor="{DynamicResource Gray200Brush}" />
                 </Image.Behaviors>
             </Image>
             <Label Grid.Column="1"
@@ -49,9 +45,9 @@
                      Padding="2"
                      Spacing="5">
             <controls:MenuButtonControl ImageSource="settings"
-                                        Text="Настройки" 
+                                        Text="{x:Static properties:Resource.Settings}" 
                                         Command="{Binding OpenPageCommand}"
-                                        CommandParameter="UserProfilePage"/>
+                                        CommandParameter="SettingsPage"/>
         </StackLayout>
     </Shell.FlyoutContent>
 </Shell>

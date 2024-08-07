@@ -14,8 +14,10 @@ namespace Reminder.IoCModules
         public static void UsePages(this IServiceCollection services)
         {
             services.AddTransient<AppShell>();
+            services.AddTransient<BasePage>();
             services.AddTransient<MainPage>();
             services.AddTransient<UserProfilePage>();
+            services.AddTransient<SettingsPage>();
         }
 
     }

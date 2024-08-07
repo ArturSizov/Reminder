@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:base="clr-namespace:Reminder.Pages"
+               x:Class="Reminder.Pages.SettingsPage"
+               xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+               xmlns:properties="clr-namespace:SDK.Base.Properties;assembly=SDK.Base"
+               xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+               Title="{x:Static properties:Resource.Settings}">
+    <Grid>
+        <dx:DXButton HeightRequest="50"
+                     WidthRequest="150">
+            <Label Text="Hello"/>
+        </dx:DXButton>
+    </Grid>
+</base:BasePage>

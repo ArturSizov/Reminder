@@ -13,6 +13,8 @@ namespace Reminder
 
             Routing.RegisterRoute(nameof(UserProfilePage), typeof(UserProfilePage));
 
+            Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
+
             BindingContext = vm;
         }
     }

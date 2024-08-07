@@ -1,5 +1,4 @@
-﻿using Reminder.Pages;
-using SDK.Base.ViewModels;
+﻿using SDK.Base.ViewModels;
 using System.Windows.Input;
 
 namespace Reminder.ViewModels
