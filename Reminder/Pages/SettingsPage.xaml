@@ -3,14 +3,50 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:base="clr-namespace:Reminder.Pages"
                x:Class="Reminder.Pages.SettingsPage"
-               xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
                xmlns:properties="clr-namespace:SDK.Base.Properties;assembly=SDK.Base"
-               xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
-               Title="{x:Static properties:Resource.Settings}">
-    <Grid>
-        <dx:DXButton HeightRequest="50"
-                     WidthRequest="150">
-            <Label Text="Hello"/>
-        </dx:DXButton>
-    </Grid>
+               xmlns:controls="clr-namespace:Reminder.Controls"
+               xmlns:dxs="http://schemas.devexpress.com/maui"
+               xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui">
+
+    <Shell.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="{x:Static properties:Resource.Settings}"
+                   VerticalOptions="CenterAndExpand"
+                   FontFamily="OpenSansRegular"
+                   FontSize="22"
+                   FontAttributes="Bold"/>
+            <ImageButton Source="contrast"
+                         WidthRequest="30"
+                         HeightRequest="30"
+                         HorizontalOptions="EndAndExpand"
+                         Margin="0,0,20,0"
+                         Command="{Binding OpenPopupCommand}"/>
+        </StackLayout>
+    </Shell.TitleView>
+
+    <!--<Grid>-->
+    <controls:DialogPopup IsOpen="{Binding IsOpenPopup}"
+                          Title="{x:Static properties:Resource.SettingTheme}">
+        <controls:DialogPopup.CustomContent>
+            <dxs:DXStackLayout Orientation="Vertical"
+                               Padding="5">
+                <dxs:DXButton Style="{StaticResource ButtonStyle}"
+                              Content="{x:Static properties:Resource.DarkTheme}"
+                              Icon="delete"
+                              Command="{Binding SetThemeCommand}"
+                              CommandParameter="{Binding ThemesManager.Themes[0]}"/>
+                <dxs:DXButton Style="{StaticResource ButtonStyle}"
+                              Content="{x:Static properties:Resource.LightTheme}"
+                              Icon="delete"
+                              Command="{Binding SetThemeCommand}"
+                              CommandParameter="{Binding ThemesManager.Themes[1]}"/>
+                <dxs:DXButton Style="{StaticResource ButtonStyle}"
+                              Content="{x:Static properties:Resource.SystemTheme}"
+                              Icon="delete"
+                              Command="{Binding SetThemeCommand}"
+                              CommandParameter="{Binding ThemesManager.Themes[2]}"/>
+            </dxs:DXStackLayout>
+        </controls:DialogPopup.CustomContent>
+    </controls:DialogPopup>
+    <!--</Grid>-->
 </base:BasePage>

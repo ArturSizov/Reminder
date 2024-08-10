@@ -214,7 +214,6 @@ namespace Reminder.ViewModels
                         Id = user.Id
                     }
                 }});
-
         }
 
         /// <summary>

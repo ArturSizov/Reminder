@@ -12,7 +12,8 @@
              x:Class="Reminder.Pages.UserProfilePage"
              Shell.NavBarIsVisible="True" 
              BackgroundColor="{StaticResource Gray95}" 
-             Background="{AppThemeBinding Light={StaticResource Gray95}, Dark=#1D1A22}">
+             Background="{AppThemeBinding Light={StaticResource Gray95}, Dark=#1D1A22}"
+             Title="Hello">
 
     <ContentPage.BindingContext>
         <vm:UserProfilePageViewModel/>

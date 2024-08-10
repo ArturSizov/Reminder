@@ -36,7 +36,7 @@
         </Border>
     </Shell.TitleView>
 
-    <Grid RowDefinitions="*, 45">
+    <Grid>
         <dxg:DataGridView Grid.Row="0"
                           IsVisible="{Binding Users.Count, Converter={StaticResource IsVisibleConverter}}"
                           IsColumnHeaderVisible="False"
@@ -96,10 +96,5 @@
                 </dxg:TemplateColumn>
             </dxg:DataGridView.Columns>
         </dxg:DataGridView>
-        <dx:DXButton Grid.Row="2" 
-                     Command="{Binding AddUserCommand}"
-                     WidthRequest="150">
-            <Label Text="Ok"/>
-        </dx:DXButton>
     </Grid>
 </base:BasePage>

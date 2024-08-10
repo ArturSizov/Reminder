@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dxs:DXPopup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dxs="http://schemas.devexpress.com/maui"
+             x:Class="Reminder.Controls.DialogPopup"
+             AllowScrim="True"
+             VerticalAlignment="Bottom"
+             HorizontalAlignment="Stretch"
+             Margin="16"
+             CornerRadius="16"
+             x:Name="self">
+    
+    <dxs:DXStackLayout Orientation="Vertical">
+        <Label Text="{Binding Source={x:Reference self}, Path=Title}"
+               Padding="15"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"/>
+        
+        <dxs:DXSeparator Style="{StaticResource SeparatorStyle}" 
+                         Margin="24,0"/>
+        <Grid>
+            <dxs:DXContentPresenter Content="{Binding Source={x:Reference self}, Path=CustomContent}" 
+                                    ContentTemplate="{Binding Source={x:Reference self}, Path=ContentTemplate}" />
+        </Grid>
+        <dxs:DXSeparator Style="{StaticResource SeparatorStyle}" 
+                         Margin="24,0"/>
+
+        <dxs:DXButton Content="Отмена"
+                      TextColor="#2088ff"
+                      PressedBackgroundColor="#e8e8e8"
+                      BackgroundColor="Transparent"
+                      Margin="0,0,0,6"
+                      Clicked="DXButton_Clicked"/>
+    </dxs:DXStackLayout>
+</dxs:DXPopup>
