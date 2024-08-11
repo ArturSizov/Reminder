@@ -31,20 +31,62 @@
             <dxs:DXStackLayout Orientation="Vertical"
                                Padding="5">
                 <dxs:DXButton Style="{StaticResource ButtonStyle}"
-                              Content="{x:Static properties:Resource.DarkTheme}"
-                              Icon="delete"
+                              Content="{x:Static properties:Resource.DarkTheme}" 
+                              Margin="3"
+                              Icon="dark_mode"
+                              IconAspect="AspectFill"
+                              IconHeight="30"
+                              IconWidth="30"
+                              IconColor="Black"
+                              DisabledIconColor="Black"
                               Command="{Binding SetThemeCommand}"
-                              CommandParameter="{Binding ThemesManager.Themes[0]}"/>
+                              CommandParameter="{Binding ThemesManager.Themes[0]}">
+                    <dxs:DXButton.Triggers>
+                        <DataTrigger Binding="{Binding ThemesManager.SelectedTheme}"
+                                     TargetType="dxs:DXButton"
+                                     Value="Dark">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </dxs:DXButton.Triggers>
+                </dxs:DXButton>
                 <dxs:DXButton Style="{StaticResource ButtonStyle}"
                               Content="{x:Static properties:Resource.LightTheme}"
-                              Icon="delete"
+                              Margin="3"
+                              Icon="light_mode"
+                              IconAspect="AspectFill"
+                              IconHeight="30"
+                              IconWidth="30"
+                              IconColor="#f7fc5f"
+                              DisabledIconColor="#f7fc5f"
                               Command="{Binding SetThemeCommand}"
-                              CommandParameter="{Binding ThemesManager.Themes[1]}"/>
+                              CommandParameter="{Binding ThemesManager.Themes[1]}">
+                    <dxs:DXButton.Triggers>
+                        <DataTrigger Binding="{Binding ThemesManager.SelectedTheme}"
+                                     TargetType="dxs:DXButton"
+                                     Value="Light">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </dxs:DXButton.Triggers>
+                </dxs:DXButton>
                 <dxs:DXButton Style="{StaticResource ButtonStyle}"
                               Content="{x:Static properties:Resource.SystemTheme}"
-                              Icon="delete"
+                              Margin="3"
+                              Icon="settings"
+                              IconAspect="AspectFill"
+                              IconHeight="30"
+                              IconWidth="30"
+                              IconColor="#0b920d"
+                              DisabledIconColor="#0b920d"
                               Command="{Binding SetThemeCommand}"
-                              CommandParameter="{Binding ThemesManager.Themes[2]}"/>
+                              CommandParameter="{Binding ThemesManager.Themes[2]}">
+                    <dxs:DXButton.Triggers>
+                        <DataTrigger Binding="{Binding ThemesManager.SelectedTheme}"
+                                     TargetType="dxs:DXButton"
+                                     Value="Unspecified">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </dxs:DXButton.Triggers>
+                </dxs:DXButton>
             </dxs:DXStackLayout>
         </controls:DialogPopup.CustomContent>
     </controls:DialogPopup>

@@ -12,7 +12,6 @@ namespace Reminder.ViewModels
     public class SettingsPageViewModel : ViewModelBase
     {
         #region Private property
-
         /// <summary>
         /// Is open popup
         /// </summary>
@@ -25,12 +24,12 @@ namespace Reminder.ViewModels
         /// Is open popup
         /// </summary>
         public bool IsOpenPopup { get => _isOpenPopup; set => SetProperty(ref _isOpenPopup, value); }
-      
+
+        
+        /// <summary>
+        /// Themes manager
+        /// </summary>
         public IThemesManager ThemesManager { get; }
-        public List<string> Themes { get; } = new() 
-        {
-           "Тёмная", "Светлая", "Системная"
-        };
 
         #endregion
 

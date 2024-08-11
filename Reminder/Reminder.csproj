@@ -43,9 +43,11 @@
 	<ItemGroup>
 	  <None Remove="Resources\Fonts\Inkfree.ttf" />
 	  <None Remove="Resources\Images\contrast.png" />
+	  <None Remove="Resources\Images\dark_mode.png" />
 	  <None Remove="Resources\Images\delete.svg" />
 	  <None Remove="Resources\Images\editorsname.svg" />
 	  <None Remove="Resources\Images\ic_anonymous.png" />
+	  <None Remove="Resources\Images\light_mode.png" />
 	  <None Remove="Resources\Images\person_add.svg" />
 	  <None Remove="Resources\Images\search.svg" />
 	  <None Remove="Resources\Images\settings.png" />
