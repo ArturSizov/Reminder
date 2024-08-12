@@ -19,7 +19,6 @@ namespace Reminder.ViewModels
     public class MainPageViewModel : ViewModelBase
     {
         #region Private property
-
         /// <summary>
         /// Search by string
         /// </summary>
@@ -29,11 +28,6 @@ namespace Reminder.ViewModels
         /// Shows or hides the error
         /// </summary>
         private bool? _isVisebleErrorMessage = false;
-
-        /// <summary>
-        /// Themes manager
-        /// </summary>
-        private readonly IThemesManager _themesManager;
 
         #endregion
 
@@ -53,12 +47,9 @@ namespace Reminder.ViewModels
         #endregion
 
         #region Ctor
-        public MainPageViewModel(IThemesManager themesManager)
+        public MainPageViewModel(IThemesManager themes)
         {
-            if (Application.Current != null)
-                Application.Current.RequestedThemeChanged += Current_RequestedThemeChanged;
-
-            _themesManager = themesManager;
+            themes.GetSelectedTheme();
 
             OpenUserProfileCommand = new Command<User>(OpenUserProfileAsync);
 
@@ -173,20 +164,6 @@ namespace Reminder.ViewModels
                 IsVisebleErrorMessage = true;
         }
 
-        private void Current_RequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
-        {
-            //await Shell.Current.DisplayAlert("Тема", $"Выбранная тема: {e.RequestedTheme}", "Ok");
-
-            if (e.RequestedTheme == AppTheme.Dark)
-            {
-                
-            }
-            else
-            {
-                
-            }
-        }
-
         #endregion
 
         #region Commands
@@ -241,18 +218,7 @@ namespace Reminder.ViewModels
 
         private void OnAddUserAsync(object obj)
         {
-            //await Shell.Current.GoToAsync(nameof(UserProfilePage));
 
-            //if (_themesManager.SelectedTheme == nameof(Light))
-            //{
-            //    _themesManager.SetTheme(nameof(Dark));
-            //}
-            //else
-            //{
-            //    _themesManager.SetTheme(nameof(Light));
-            //}
-
-            //_themesManager.SetTheme(AppTheme.Dark);
         }
         #endregion
     }

@@ -17,6 +17,11 @@ namespace Reminder.ViewModels
         /// </summary>
         private bool _isOpenPopup;
 
+        /// <summary>
+        /// Select user app thema
+        /// </summary>
+        private string? _selectedTheme;
+
         #endregion
 
         #region Public property
@@ -25,7 +30,11 @@ namespace Reminder.ViewModels
         /// </summary>
         public bool IsOpenPopup { get => _isOpenPopup; set => SetProperty(ref _isOpenPopup, value); }
 
-        
+        /// <summary>
+        /// Select user app thema
+        /// </summary>
+        public string? SelectedTheme { get => _selectedTheme; set => SetProperty(ref _selectedTheme, value); }
+
         /// <summary>
         /// Themes manager
         /// </summary>
@@ -36,6 +45,7 @@ namespace Reminder.ViewModels
         public SettingsPageViewModel(IThemesManager themesManager)
         {
             ThemesManager = themesManager;
+            SelectedTheme = themesManager.GetSelectedTheme();
 
             OpenPopupCommand = new Command(OnOpenPopupAsync);
             SetThemeCommand = new Command<AppTheme>(OnSetThemeAsync);
@@ -47,6 +57,7 @@ namespace Reminder.ViewModels
         /// Open popup command
         /// </summary>
         public ICommand OpenPopupCommand{ get; }
+
         private void OnOpenPopupAsync(object obj) => IsOpenPopup = !IsOpenPopup;
 
         /// <summary>
@@ -57,7 +68,7 @@ namespace Reminder.ViewModels
         private void OnSetThemeAsync(AppTheme theme)
         {
             IsOpenPopup = false;
-            ThemesManager.SetTheme(theme);
+            SelectedTheme = ThemesManager.SetTheme(theme);
         }
         #endregion
     }

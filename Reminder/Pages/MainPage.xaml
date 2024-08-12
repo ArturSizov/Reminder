@@ -63,7 +63,7 @@
                                                    ImageSource="{Binding Item.Avatar}"
                                                    WidthRequest="80"
                                                    HeightRequest="80"/>
-
+                                
                                 <StackLayout Grid.Column="1"
                                              Orientation="Vertical"
                                              HorizontalOptions="Start"
@@ -90,6 +90,10 @@
                                            LineBreakMode="TailTruncation" 
                                            VerticalOptions="Start"/>
                                 </StackLayout>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainPageViewModel}}, Path=OpenUserProfileCommand}"
+                                                          CommandParameter="{Binding Item}"/>
+                                </Grid.GestureRecognizers>
                             </Grid>
                         </DataTemplate>
                     </dxg:TemplateColumn.DisplayTemplate>

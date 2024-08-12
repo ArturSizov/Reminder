@@ -42,7 +42,7 @@
                               Command="{Binding SetThemeCommand}"
                               CommandParameter="{Binding ThemesManager.Themes[0]}">
                     <dxs:DXButton.Triggers>
-                        <DataTrigger Binding="{Binding ThemesManager.SelectedTheme}"
+                        <DataTrigger Binding="{Binding SelectedTheme}"
                                      TargetType="dxs:DXButton"
                                      Value="Dark">
                             <Setter Property="IsEnabled" Value="False"/>
@@ -61,7 +61,7 @@
                               Command="{Binding SetThemeCommand}"
                               CommandParameter="{Binding ThemesManager.Themes[1]}">
                     <dxs:DXButton.Triggers>
-                        <DataTrigger Binding="{Binding ThemesManager.SelectedTheme}"
+                        <DataTrigger Binding="{Binding SelectedTheme}"
                                      TargetType="dxs:DXButton"
                                      Value="Light">
                             <Setter Property="IsEnabled" Value="False"/>
@@ -80,7 +80,7 @@
                               Command="{Binding SetThemeCommand}"
                               CommandParameter="{Binding ThemesManager.Themes[2]}">
                     <dxs:DXButton.Triggers>
-                        <DataTrigger Binding="{Binding ThemesManager.SelectedTheme}"
+                        <DataTrigger Binding="{Binding SelectedTheme}"
                                      TargetType="dxs:DXButton"
                                      Value="Unspecified">
                             <Setter Property="IsEnabled" Value="False"/>
