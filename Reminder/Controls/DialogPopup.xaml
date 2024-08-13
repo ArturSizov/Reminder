@@ -20,7 +20,8 @@
                          Margin="24,0"/>
         <Grid>
             <dxs:DXContentPresenter Content="{Binding Source={x:Reference self}, Path=CustomContent}" 
-                                    ContentTemplate="{Binding Source={x:Reference self}, Path=ContentTemplate}" />
+                                    ContentTemplate="{Binding Source={x:Reference self}, Path=ContentTemplate}" 
+                                    Padding="5"/>
         </Grid>
         <dxs:DXSeparator Style="{StaticResource SeparatorStyle}" 
                          Margin="24,0"/>

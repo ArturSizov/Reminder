@@ -42,15 +42,21 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Fonts\Inkfree.ttf" />
+	  <None Remove="Resources\Images\calendar.png" />
+	  <None Remove="Resources\Images\camera.png" />
 	  <None Remove="Resources\Images\contrast.png" />
 	  <None Remove="Resources\Images\dark_mode.png" />
 	  <None Remove="Resources\Images\delete.svg" />
+	  <None Remove="Resources\Images\edit.png" />
 	  <None Remove="Resources\Images\editorsname.svg" />
+	  <None Remove="Resources\Images\gallery.png" />
 	  <None Remove="Resources\Images\ic_anonymous.png" />
 	  <None Remove="Resources\Images\light_mode.png" />
+	  <None Remove="Resources\Images\person.png" />
 	  <None Remove="Resources\Images\person_add.svg" />
 	  <None Remove="Resources\Images\search.svg" />
 	  <None Remove="Resources\Images\settings.png" />
+	  <None Remove="Resources\Images\supervised.png" />
 	  <None Remove="Resources\Images\timelapse.png" />
 	</ItemGroup>
 

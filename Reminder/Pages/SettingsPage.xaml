@@ -28,15 +28,10 @@
     <controls:DialogPopup IsOpen="{Binding IsOpenPopup}"
                           Title="{x:Static properties:Resource.SettingTheme}">
         <controls:DialogPopup.CustomContent>
-            <dxs:DXStackLayout Orientation="Vertical"
-                               Padding="5">
+            <dxs:DXStackLayout Orientation="Vertical">
                 <dxs:DXButton Style="{StaticResource ButtonStyle}"
-                              Content="{x:Static properties:Resource.DarkTheme}" 
-                              Margin="3"
+                              Content="{x:Static properties:Resource.DarkTheme}"
                               Icon="dark_mode"
-                              IconAspect="AspectFill"
-                              IconHeight="30"
-                              IconWidth="30"
                               IconColor="Black"
                               DisabledIconColor="Black"
                               Command="{Binding SetThemeCommand}"
@@ -51,11 +46,7 @@
                 </dxs:DXButton>
                 <dxs:DXButton Style="{StaticResource ButtonStyle}"
                               Content="{x:Static properties:Resource.LightTheme}"
-                              Margin="3"
                               Icon="light_mode"
-                              IconAspect="AspectFill"
-                              IconHeight="30"
-                              IconWidth="30"
                               IconColor="#f7fc5f"
                               DisabledIconColor="#f7fc5f"
                               Command="{Binding SetThemeCommand}"
@@ -70,11 +61,7 @@
                 </dxs:DXButton>
                 <dxs:DXButton Style="{StaticResource ButtonStyle}"
                               Content="{x:Static properties:Resource.SystemTheme}"
-                              Margin="3"
                               Icon="settings"
-                              IconAspect="AspectFill"
-                              IconHeight="30"
-                              IconWidth="30"
                               IconColor="#0b920d"
                               DisabledIconColor="#0b920d"
                               Command="{Binding SetThemeCommand}"

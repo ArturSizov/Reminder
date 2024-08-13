@@ -18,7 +18,7 @@ namespace Reminder
                 .UseMauiApp<App>()
                 .UseServices()
                 .UseMauiCommunityToolkit()
-                .UseDevExpress(useLocalization: true)
+                .UseDevExpress(useLocalization: false)
                 .UseDevExpressCharts()
                 .UseDevExpressCollectionView()
                 .UseDevExpressControls()
