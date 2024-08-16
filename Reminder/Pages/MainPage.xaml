@@ -60,7 +60,7 @@
                             <Grid ColumnDefinitions="80, *"
                                   Padding="5">
                                 <avatar:UserAvatar Grid.Row="0"
-                                                   ImageSource="{Binding Item.Avatar}"
+                                                   ImageSource="{Binding Item.Avatar, Converter={StaticResource Base64ImageConverter}}"
                                                    WidthRequest="80"
                                                    HeightRequest="80"/>
                                 

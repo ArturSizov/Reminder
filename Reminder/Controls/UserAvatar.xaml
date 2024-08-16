@@ -10,12 +10,7 @@
              Padding="-1"
              x:Name="this">
 
-    <Grid>
-        <Image Aspect="AspectFill"
-               Source="ic_anonymous.png"/>
-        <ffimage:CachedImage ZIndex="1"
-                             Source="{Binding Source={x:Reference this}, Path=ImageSource}"
-                             Aspect="AspectFill"
-                             ErrorPlaceholder="ic_anonymous.png"/>
-    </Grid>
+    <dx:DXImage ZIndex="1"
+                Source="{Binding Source={x:Reference this}, Path=ImageSource}"
+                Aspect="AspectFill"/>
 </dx:DXBorder>

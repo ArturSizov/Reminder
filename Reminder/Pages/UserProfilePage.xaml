@@ -16,11 +16,8 @@
                xmlns:vm="clr-namespace:Reminder.ViewModels"
                xmlns:properties="clr-namespace:SDK.Base.Properties;assembly=SDK.Base"
                x:Class="Reminder.Pages.UserProfilePage"
-               Shell.NavBarIsVisible="True">
-
-    <ContentPage.BindingContext>
-        <vm:UserProfilePageViewModel/>
-    </ContentPage.BindingContext>
+               Shell.NavBarIsVisible="True"
+               x:DataType="vm:UserProfilePageViewModel">
 
     <ScrollView>
         <dx:DXStackLayout Orientation="Vertical"
@@ -28,7 +25,7 @@
             <Grid WidthRequest="250"
                   HeightRequest="250"
                   BackgroundColor="Transparent">
-                <controls:UserAvatar ImageSource="{Binding User.Avatar}" 
+                <controls:UserAvatar ImageSource="{Binding User.Avatar, Converter={StaticResource Base64ImageConverter}}" 
                                      BorderThickness="2"
                                      BorderColor="White"/>
                 <dx:DXBorder BackgroundColor="{dx:ThemeColor SurfaceContainerLow}"
@@ -111,7 +108,8 @@
                         <dx:DXButton Style="{StaticResource ButtonStyle}"
                                      Icon="camera"
                                      Content="{x:Static properties:Resource.TakePhoto}"
-                                     IconColor="#5dade2"/>
+                                     IconColor="#5dade2"
+                                     Command="{Binding TakePhotoCommand}"/>
                         <dx:DXButton Style="{StaticResource ButtonStyle}"
                                      Icon="gallery"
                                      Content="{x:Static properties:Resource.SelectGallery}"

@@ -2,6 +2,7 @@
 using SDK.Base.Abstractions;
 using SDK.Base.Extensions;
 using SDK.Base.Services;
+using Microsoft.Extensions.Logging;
 
 namespace Reminder.IoCModules
 {
@@ -18,6 +19,7 @@ namespace Reminder.IoCModules
         {
             services.AddSingleton<IAppSettings, AppSettings>();
             services.AddSingleton<IThemesManager, ThemesManager>();
+            services.AddSingleton<IPhotoManager, PhotoManager>();
         }
 
     }

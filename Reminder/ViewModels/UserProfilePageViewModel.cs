@@ -1,5 +1,6 @@
 ﻿using Reminder.Models;
 using Reminder.Pages;
+using SDK.Base.Abstractions;
 using SDK.Base.ViewModels;
 using System.Windows.Input;
 
@@ -22,6 +23,11 @@ namespace Reminder.ViewModels
         /// </summary>
         private User? _user;
 
+        /// <summary>
+        /// Photo manager
+        /// </summary>
+        private readonly IPhotoManager _photoManager;
+
         #endregion
 
         #region Public property
@@ -37,10 +43,13 @@ namespace Reminder.ViewModels
 
         #endregion
 
-        public UserProfilePageViewModel()
+        public UserProfilePageViewModel(IPhotoManager photoManager)
         {
+            _photoManager = photoManager;
             OpenPopupCommand = new Command(OnOpenPopupAsync);
+            TakePhotoCommand = new Command(OnTakePhotoAsync);
         }
+
 
         #region Commands
         /// <summary>
@@ -49,6 +58,22 @@ namespace Reminder.ViewModels
         public ICommand OpenPopupCommand { get; }
 
         private void OnOpenPopupAsync(object obj) => IsOpenPopup = !IsOpenPopup;
+        #endregion
+
+        #region TakePhotoCommand
+
+        /// <summary>
+        /// Take a photo using the camera
+        /// </summary>
+        public ICommand TakePhotoCommand { get; }
+
+        private async void OnTakePhotoAsync(object obj)
+        {
+            IsOpenPopup = false;
+
+            if (User != null)
+              User.Avatar = await _photoManager.TakePhotoAsync();
+        }
         #endregion
     }
 }

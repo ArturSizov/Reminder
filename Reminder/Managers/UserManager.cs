@@ -17,7 +17,10 @@ namespace Reminder.Managers
         private readonly IDataProvider<UserDAO> _dataProvider;
 
         #endregion
-
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="dataProvider"></param>
         public UserManager(IDataProvider<UserDAO> dataProvider)
         {
             _dataProvider = dataProvider;

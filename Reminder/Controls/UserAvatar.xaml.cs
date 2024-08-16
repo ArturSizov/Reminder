@@ -3,9 +3,9 @@ namespace Reminder.Controls;
 public partial class UserAvatar
 {
     #region ImageSource
-    public string ImageSource { get => (string)GetValue(ImageSourceProperty); set { SetValue(ImageSourceProperty, value); } }
+    public object ImageSource { get => (object)GetValue(ImageSourceProperty); set { SetValue(ImageSourceProperty, value); } }
 
-    public static readonly BindableProperty ImageSourceProperty = BindableProperty.Create(nameof(ImageSource), typeof(string), typeof(UserAvatar));
+    public static readonly BindableProperty ImageSourceProperty = BindableProperty.Create(nameof(ImageSource), typeof(object), typeof(UserAvatar));
 
     #endregion
 
