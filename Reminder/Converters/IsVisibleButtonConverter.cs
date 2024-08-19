@@ -2,16 +2,14 @@
 
 namespace Reminder.Converters
 {
-    public class Base64ImageConverter : IValueConverter
+    public class IsVisibleButtonConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            var base64 = value as string;
+            if(value == null) 
+                return false;
 
-            if (value == null || base64 == null) 
-                return null;
-
-            return ImageSource.FromStream(() => new MemoryStream(System.Convert.FromBase64String(base64)));
+            return true;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

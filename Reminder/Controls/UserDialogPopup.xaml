@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               x:Class="Reminder.Controls.UserDialogPopup"
+               xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+               xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
+               CanBeDismissedByTappingOutsideOfPopup="False"
+               xmlns:vm="clr-namespace:Reminder.ViewModels.Popup"
+               x:DataType="vm:UserDialogPopupViewModel">
+
+    <Grid WidthRequest="350"
+          HeightRequest="150"
+          Padding="15">
+        <Label Text="{Binding Text}"/>
+        <dx:DXStackLayout Orientation="Horizontal"
+                          HorizontalOptions="EndAndExpand"
+                          VerticalOptions="EndAndExpand"
+                          ItemSpacing="15">
+            <dx:DXButton Content="Да"
+                         Clicked="Yes_Clicked"
+                         BackgroundColor="Red"
+                         MinimumWidthRequest="80"/>
+            <dx:DXButton Content="Нет"
+                         Clicked="No_Clicked"
+                         MinimumWidthRequest="80"/>
+        </dx:DXStackLayout>
+    </Grid>
+</toolkit:Popup>

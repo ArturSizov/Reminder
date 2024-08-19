@@ -113,11 +113,16 @@
                         <dx:DXButton Style="{StaticResource ButtonStyle}"
                                      Icon="gallery"
                                      Content="{x:Static properties:Resource.SelectGallery}"
-                                     IconColor="#f4d03f"/>
+                                     IconColor="#f4d03f"
+                                     Command="{Binding OpenImageCommand}"/>
                         <dx:DXButton Style="{StaticResource ButtonStyle}"
                                      Icon="delete"
                                      Content="{x:Static properties:Resource.DeletePhoto}"
-                                     IconColor="Red"/>
+                                     IconColor="Red"
+                                     Command="{Binding DeleteImageCommand}"
+                                     IsVisible="{Binding User.Avatar, Converter={StaticResource IsVisibleButtonConverter}}">
+                           
+                        </dx:DXButton>
                     </dx:DXStackLayout>
                 </controls:DialogPopup.CustomContent>
             </controls:DialogPopup>

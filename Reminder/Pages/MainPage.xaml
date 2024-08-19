@@ -12,9 +12,6 @@
                x:Class="Reminder.Pages.MainPage"
                Shell.NavBarIsVisible="True">
 
-    <ContentPage.Resources>
-        <converters:IsVisibleConverter x:Key="IsVisibleConverter"/>
-    </ContentPage.Resources>
 
     <Shell.TitleView>
         <Border StrokeThickness="0" 

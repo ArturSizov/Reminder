@@ -10,7 +10,11 @@
              Padding="-1"
              x:Name="this">
 
-    <dx:DXImage ZIndex="1"
-                Source="{Binding Source={x:Reference this}, Path=ImageSource}"
-                Aspect="AspectFill"/>
+    <Grid>
+        <dx:DXImage Source="ic_anonymous.png"
+                    Aspect="AspectFill"/>
+        <dx:DXImage ZIndex="1"
+            Source="{Binding Source={x:Reference this}, Path=ImageSource}"
+            Aspect="AspectFill"/>
+    </Grid>
 </dx:DXBorder>

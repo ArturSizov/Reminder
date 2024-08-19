@@ -12,6 +12,7 @@
             <converters:StatusBarStyleConverter x:Key="StatusBarStyleConverter"/>
             <converters:LabelMarginConverter x:Key="LabelMarginConverter"/>
             <converters:Base64ImageConverter x:Key="Base64ImageConverter"/>
+            <converters:IsVisibleButtonConverter x:Key="IsVisibleButtonConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />

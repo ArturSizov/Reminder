@@ -2,8 +2,11 @@
 using DevExpress.Maui;
 using DevExpress.Maui.Core;
 using FFImageLoading.Maui;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Reminder.Controls;
 using Reminder.IoCModules;
+using Reminder.ViewModels.Popup;
 
 namespace Reminder
 {
@@ -24,6 +27,7 @@ namespace Reminder
                 .UseDevExpressControls()
                 .UseDevExpressEditors()
                 .UseDevExpressDataGrid()
+                .UseDevExpressScheduler()
                 .UseFFImageLoading()
                 .ConfigureFonts(fonts =>
                 {
@@ -31,11 +35,9 @@ namespace Reminder
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                     fonts.AddFont("Inkfree.ttf", "Inkfree");
                 });
-
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
-
             return builder.Build();
         }
     }

@@ -1,4 +1,7 @@
-﻿using Reminder.Pages;
+﻿using CommunityToolkit.Maui;
+using Reminder.Controls;
+using Reminder.Pages;
+using Reminder.ViewModels.Popup;
 
 namespace Reminder.IoCModules
 {
@@ -18,7 +21,9 @@ namespace Reminder.IoCModules
             services.AddTransient<MainPage>();
             services.AddTransient<UserProfilePage>();
             services.AddTransient<SettingsPage>();
-        }
 
+            //Register popup 
+            services.AddTransientPopup<UserDialogPopup, UserDialogPopupViewModel>();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Reminder.Pages;
+﻿using Reminder.Controls;
+using Reminder.Pages;
 using Reminder.ViewModels;
 
 namespace Reminder

@@ -1,14 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using DevExpress.Maui.Core;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls.PlatformConfiguration;
-using Reminder.Managers;
 using Reminder.Models;
 using Reminder.Pages;
 using SDK.Base.Abstractions;
-using SDK.Base.Themes;
 using SDK.Base.ViewModels;
 
 namespace Reminder.ViewModels

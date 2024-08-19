@@ -18,6 +18,5 @@ namespace Reminder.IoCModules
             services.AddTransient<UserProfilePageViewModel>();
             services.AddTransient<SettingsPageViewModel>();
         }
-
     }
 }
