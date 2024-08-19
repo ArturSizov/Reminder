@@ -19,6 +19,7 @@ namespace Reminder.IoCModules
             services.AddSingleton<IAppSettings, AppSettings>();
             services.AddSingleton<IThemesManager, ThemesManager>();
             services.AddSingleton<IPhotoManager, PhotoManager>();
+            services.AddSingleton<IDialogService, DialogService>();
         }
     }
 }

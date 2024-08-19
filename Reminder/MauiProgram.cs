@@ -2,11 +2,8 @@
 using DevExpress.Maui;
 using DevExpress.Maui.Core;
 using FFImageLoading.Maui;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Reminder.Controls;
 using Reminder.IoCModules;
-using Reminder.ViewModels.Popup;
 
 namespace Reminder
 {

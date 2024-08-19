@@ -1,10 +1,6 @@
-﻿using CommunityToolkit.Maui.Core;
-using Reminder.Controls;
-using Reminder.Models;
+﻿using Reminder.Models;
 using Reminder.Pages;
-using Reminder.ViewModels.Popup;
 using SDK.Base.Abstractions;
-using SDK.Base.Properties;
 using SDK.Base.ViewModels;
 using System.Windows.Input;
 
@@ -33,9 +29,9 @@ namespace Reminder.ViewModels
         private readonly IPhotoManager _photoManager;
 
         /// <summary>
-        /// Popup service
+        /// Dialog service
         /// </summary>
-        private readonly IPopupService _popup;
+        private readonly IDialogService _dialog;
 
         #endregion
 
@@ -52,15 +48,15 @@ namespace Reminder.ViewModels
 
         #endregion
 
-        public UserProfilePageViewModel(IPhotoManager photoManager, IPopupService popup)
+        public UserProfilePageViewModel(IPhotoManager photoManager, IDialogService dialog)
         {
             _photoManager = photoManager;
-            _popup = popup;
+            _dialog = dialog;
 
             OpenPopupCommand = new Command(OnOpenPopupAsync);
             TakePhotoCommand = new Command(OnTakePhotoAsync);
             OpenImageCommand = new Command(OnOpenImageAsync);
-            DeleteImageCommand = new Command(OnDeleteImage);
+            DeleteImageCommand = new Command(OnDeleteImageAsync);
         }
 
         #region Commands
@@ -105,12 +101,11 @@ namespace Reminder.ViewModels
         /// </summary>
         public ICommand DeleteImageCommand { get; }
 
-        private async void OnDeleteImage(object obj)
+        private async void OnDeleteImageAsync(object obj)
         {
             IsOpenPopup = false;
 
-            var result = (bool?)await _popup.ShowPopupAsync<UserDialogPopupViewModel>(onPresenting: viewModel => 
-                                                                                     viewModel.Text=Resource.DeleteAvatar);
+            var result = await _dialog.ShowPopupAsync(SDK.Base.Properties.Resource.DeleteAvatar);
 
             if (User != null && result == true)
                 User.Avatar = null;

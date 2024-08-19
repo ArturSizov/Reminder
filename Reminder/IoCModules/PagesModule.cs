@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Reminder.Controls;
 using Reminder.Pages;
-using Reminder.ViewModels.Popup;
+using SDK.Base.ViewModels.Popup;
 
 namespace Reminder.IoCModules
 {

@@ -5,7 +5,7 @@
                xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
                xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
                CanBeDismissedByTappingOutsideOfPopup="False"
-               xmlns:vm="clr-namespace:Reminder.ViewModels.Popup"
+               xmlns:vm="clr-namespace:SDK.Base.ViewModels.Popup;assembly=SDK.Base"
                x:DataType="vm:UserDialogPopupViewModel">
 
     <Grid WidthRequest="350"

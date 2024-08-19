@@ -1,5 +1,5 @@
 using CommunityToolkit.Maui.Views;
-using Reminder.ViewModels.Popup;
+using SDK.Base.ViewModels.Popup;
 
 namespace Reminder.Controls;
 
