@@ -23,6 +23,11 @@ namespace Reminder.ViewModels
         /// </summary>
         private bool? _isVisebleErrorMessage = false;
 
+        /// <summary>
+        /// Dialog service
+        /// </summary>
+        private readonly IDialogService _dialogService;
+
         #endregion
 
         #region Public property
@@ -41,9 +46,11 @@ namespace Reminder.ViewModels
         #endregion
 
         #region Ctor
-        public MainPageViewModel(IThemesManager themes)
+        public MainPageViewModel(IThemesManager themes, IDialogService dialogService)
         {
             themes.GetSelectedTheme();
+
+            _dialogService = dialogService;
 
             OpenUserProfileCommand = new Command<User>(OpenUserProfileAsync);
 
@@ -169,6 +176,8 @@ namespace Reminder.ViewModels
         /// <param name="user"></param>
         private async void OpenUserProfileAsync(User user)
         {
+            await _dialogService.ShowLoadingAsync(SDK.Base.Properties.Resource.Loading);
+
             await Shell.Current.GoToAsync(nameof(UserProfilePage), new Dictionary<string, object>
             {
                 { nameof(UserProfilePage), new User
@@ -182,6 +191,8 @@ namespace Reminder.ViewModels
                         Id = user.Id
                     }
                 }});
+
+            _dialogService.CloseLoadingPopup();
         }
 
         /// <summary>

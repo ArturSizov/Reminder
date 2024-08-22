@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using Controls.UserDialogs.Maui;
 using DevExpress.Maui;
 using DevExpress.Maui.Core;
 using FFImageLoading.Maui;
@@ -26,6 +27,22 @@ namespace Reminder
                 .UseDevExpressDataGrid()
                 .UseDevExpressScheduler()
                 .UseFFImageLoading()
+                .UseUserDialogs(true, () =>
+                {
+#if ANDROID
+                    var fontFamily = "OpenSans-Regular.ttf";
+#else
+                    var fontFamily = "OpenSansRegular";
+#endif
+                    AlertConfig.DefaultMessageFontFamily = fontFamily;
+                    AlertConfig.DefaultUserInterfaceStyle = UserInterfaceStyle.Dark;
+                    AlertConfig.DefaultPositiveButtonTextColor = Colors.Purple;
+                    ConfirmConfig.DefaultMessageFontFamily = fontFamily;
+                    ActionSheetConfig.DefaultMessageFontFamily = fontFamily;
+                    ToastConfig.DefaultMessageFontFamily = fontFamily;
+                    SnackbarConfig.DefaultMessageFontFamily = fontFamily;
+                    HudDialogConfig.DefaultMessageFontFamily = fontFamily;
+                })
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
