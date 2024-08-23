@@ -38,15 +38,14 @@
                              VerticalOptions="End"
                              Margin="0,0,20,20">
                     <dx:DXImage Source="edit" 
-                                WidthRequest="25" 
-                                HeightRequest="25"
-                                TintColor="Red"/>
+                               WidthRequest="25" 
+                               HeightRequest="25"
+                               TintColor="Red"/>
                 </dx:DXBorder>
 
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding OpenPopupCommand}"/>
                 </Grid.GestureRecognizers>
-                
             </Grid>
 
             <dx:DXSeparator Style="{StaticResource SeparatorStyle}"
@@ -63,44 +62,52 @@
             <dx:DXSeparator Style="{StaticResource SeparatorStyle}"
                             CapMargin="60"/>
 
-            <dxdf:DataFormView DataObject="{Binding User}" 
-                               EditorLabelWidth="40" 
-                               IsAutoGenerationEnabled="False"
-                               BackgroundColor="Transparent">
-                <dxdf:DataFormTextItem FieldName="LastName" 
-                                       LabelIcon="person" 
-                                       LabelText="" 
-                                       InplaceLabelText="{x:Static properties:Resource.LastName}" 
-                                       IsInplaceLabelFloating="True"
-                                       LabelColor="#0b920d"/>
-                <dxdf:DataFormTextItem FieldName="Name"
-                                       LabelText="" 
-                                       InplaceLabelText="{x:Static properties:Resource.Name}" 
-                                       IsInplaceLabelFloating="True"/>
-                <dxdf:DataFormTextItem FieldName="MiddleName"
-                                       LabelText="" 
-                                       InplaceLabelText="{x:Static properties:Resource.MiddleName}" 
-                                       IsInplaceLabelFloating="True"/>
-                <dxdf:DataFormTextItem FieldName="Position" 
-                                       LabelIcon="supervised" 
-                                       LabelText="" 
-                                       InplaceLabelText="{x:Static properties:Resource.Position}" 
-                                       IsInplaceLabelFloating="True"/>
-                <dxdf:DataFormDateItem FieldName="Birthday"
-                                       LabelIcon="calendar"
-                                       LabelColor="#d8d842"
-                                       AutofillContentType="None"
-                                       ClearIconVisibility="Always"
-                                       DisplayFormat="dd.MM.yyyy"
-                                       MinDate="1920.01.01"
-                                       MaxDate="{x:Static sys:DateTime.Now}"
-                                       UseNativePicker="False"
-                                       InplaceLabelText="{x:Static properties:Resource.Birthday}"/>
-            </dxdf:DataFormView>
-            <dx:DXButton Content="{x:Static properties:Resource.Save}"
-                         WidthRequest="130"
-                         HorizontalOptions="End"
-                         Margin="0,0,10,0"/>
+            <dx:DXStackLayout ItemSpacing="5"
+                              Padding="10">
+                <Grid ColumnDefinitions="Auto,*"
+                      HeightRequest="60">
+                    <dx:DXImage Grid.Column="0"
+                            Source="person"
+                            TintColor="#0b920d"
+                            WidthRequest="40"/>
+                    <dxe:TextEdit Grid.Column="1"
+                                  Text="{Binding User.LastName}"
+                                  LabelText="{x:Static properties:Resource.LastName}"/>
+                </Grid>
+                <dxe:TextEdit Grid.Column="1"
+                              Text="{Binding User.Name}"
+                              LabelText="{x:Static properties:Resource.Name}"
+                              Margin="40,0,0,0"/>
+                <dxe:TextEdit Grid.Column="1"
+                              Text="{Binding User.MiddleName}"
+                              LabelText="{x:Static properties:Resource.MiddleName}"
+                              Margin="40,0,0,0"/>
+                <Grid ColumnDefinitions="Auto,*"
+                      HeightRequest="60">
+                    <dx:DXImage Grid.Column="0"
+                                Source="supervised"
+                                WidthRequest="40"/>
+                    <dxe:TextEdit Grid.Column="1"
+                                  Text="{Binding User.Position}"
+                                  LabelText="{x:Static properties:Resource.Position}"/>
+                </Grid>
+                <Grid ColumnDefinitions="Auto,*"
+                      HeightRequest="60">
+                    <dx:DXImage Grid.Column="0"
+                                Source="calendar"
+                                TintColor="#d8d842"
+                                WidthRequest="40"/>
+                    <dxe:DateEdit Grid.Column="1"
+                                  Date="{Binding User.Birthday}"
+                                  LabelText="{x:Static properties:Resource.Birthday}"
+                                  DisplayFormat="dd.MM.yyyy"
+                                  MinDate="1920.01.01"
+                                  MaxDate="{x:Static sys:DateTime.Now}"
+                                  ClearIconVisibility="Always"
+                                  DateIconColor="#d8d842"/>
+                </Grid>
+            </dx:DXStackLayout>
+
             <controls:DialogPopup IsOpen="{Binding IsOpenPopup}"
                                   Title="{x:Static properties:Resource.AvatarEditor}">
                 <controls:DialogPopup.CustomContent>
@@ -120,12 +127,15 @@
                                      Content="{x:Static properties:Resource.DeletePhoto}"
                                      IconColor="Red"
                                      Command="{Binding DeleteImageCommand}"
-                                     IsVisible="{Binding User.Avatar, Converter={StaticResource IsVisibleButtonConverter}}">
-                           
-                        </dx:DXButton>
+                                     IsVisible="{Binding User.Avatar, Converter={StaticResource IsVisibleButtonConverter}}"/>
                     </dx:DXStackLayout>
                 </controls:DialogPopup.CustomContent>
             </controls:DialogPopup>
+            <dx:DXButton Content="{x:Static properties:Resource.Save}"
+                         WidthRequest="130"
+                         HorizontalOptions="End"
+                         Margin="0,0,10,0"
+                         Command="{Binding SaveUserCommand}"/>
         </dx:DXStackLayout>
     </ScrollView>
 </base:BasePage>

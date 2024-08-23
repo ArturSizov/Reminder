@@ -3,7 +3,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
-    xmlns:dxs="http://schemas.devexpress.com/maui">
+    xmlns:dxs="http://schemas.devexpress.com/maui"
+    xmlns:dxg="clr-namespace:DevExpress.Maui.DataGrid;assembly=DevExpress.Maui.DataGrid">
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{dx:ThemeColor Primary}" />
@@ -234,6 +235,10 @@
     </Style>
 
     <Style TargetType="Grid">
+        <Setter Property="BackgroundColor" Value="{dx:ThemeColor SurfaceContainerLow}"/>
+    </Style>
+
+    <Style TargetType="dxg:DataGridView">
         <Setter Property="BackgroundColor" Value="{dx:ThemeColor SurfaceContainerLow}"/>
     </Style>
 

@@ -16,7 +16,7 @@
     <Shell.TitleView>
         <Border StrokeThickness="0" 
                 Stroke="Transparent"
-                IsVisible="{Binding Users.Count, Converter={StaticResource IsVisibleConverter}}"
+                IsVisible="{Binding DataManager.Items.Count, Converter={StaticResource IsVisibleConverter}}"
                 Padding="0,0,10,0">
 
             <dxe:TextEdit x:Name="search"
@@ -35,14 +35,21 @@
 
     <Grid>
         <dxg:DataGridView Grid.Row="0"
-                          IsVisible="{Binding Users.Count, Converter={StaticResource IsVisibleConverter}}"
+                          IsVisible="{Binding DataManager.Items.Count, Converter={StaticResource IsVisibleConverter}}"
                           IsColumnHeaderVisible="False"
-                          ItemsSource="{Binding Users}"
+                          ItemsSource="{Binding DataManager.Items, Mode=TwoWay}"
                           SelectionMode="None"  
                           AllowDragDropRows="True" 
                           AllowDragDropSortedRows="True" 
                           AllowGroupCollapse="False"
-                          FilterString="{Binding SearchText}">
+                          FilterString="{Binding SearchText}"
+                          Scrolled="DataGridView_Scrolled">
+            <dxg:DataGridView.EndSwipeItems>
+                <dxg:GridSwipeItem Caption="{x:Static properties:Resource.Delete}" 
+                                   BackgroundColor="#ff3b30" 
+                                   Image="delete.svg"
+                                   Command="{Binding DeleteUserCommand}"/>
+            </dxg:DataGridView.EndSwipeItems>
 
             <dxg:DataGridView.CellAppearance>
                 <dxg:CellAppearance HorizontalLineThickness="0"/>
@@ -97,5 +104,15 @@
                 </dxg:TemplateColumn>
             </dxg:DataGridView.Columns>
         </dxg:DataGridView>
+        <dx:DXButton x:Name="buttonAdd"
+                     Icon="person_add"
+                     WidthRequest="50"
+                     HeightRequest="50"
+                     VerticalOptions="End"
+                     HorizontalOptions="End"
+                     IconWidth="35"
+                     IconHeight="35"
+                     Margin="10"
+                     Command="{Binding AddUserCommand}"/>
     </Grid>
 </base:BasePage>

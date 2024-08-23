@@ -82,7 +82,18 @@ namespace Reminder.Managers
         /// <inheritdoc/>
         public Task<int> UpdateAsync(User item)
         {
-            Items.FirstOrDefault(x => x.Id == item.Id);
+            var user = Items.FirstOrDefault(x => x.Id == item.Id);
+
+            if (user == null)
+                return Task.FromResult(0);
+
+            user.Id = item.Id;
+            user.Name = item.Name;
+            user.LastName = item.LastName;
+            user.MiddleName = item.MiddleName;
+            user.Position = item.Position;
+            user.Birthday = item.Birthday;
+            user.Avatar = item.Avatar;
 
             return _dataProvider.UpdateAsync(item.ToDAO());
         }

@@ -9,5 +9,15 @@ namespace Reminder.Pages
             InitializeComponent();
             BindingContext = vm;
         }
+
+        private void DataGridView_Scrolled(object sender, DevExpress.Maui.DataGrid.DataGridViewScrolledEventArgs e)
+        {
+            if(e.DeltaY > 0 )
+            {
+                buttonAdd.IsVisible = false;
+                return;
+            }
+            buttonAdd.IsVisible = true;
+        }
     }
 }

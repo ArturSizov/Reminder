@@ -1,4 +1,5 @@
-﻿using Reminder.Models;
+﻿using Reminder.Abstractions;
+using Reminder.Models;
 using Reminder.Pages;
 using SDK.Base.Abstractions;
 using SDK.Base.ViewModels;
@@ -21,7 +22,12 @@ namespace Reminder.ViewModels
         /// <summary>
         /// User model
         /// </summary>
-        private User? _user;
+        private User? _user = new();
+
+        /// <summary>
+        /// User data manager
+        /// </summary>
+        private readonly IDataManager<User> _dataManager;
 
         /// <summary>
         /// Photo manager
@@ -48,8 +54,9 @@ namespace Reminder.ViewModels
 
         #endregion
 
-        public UserProfilePageViewModel(IPhotoManager photoManager, IDialogService dialog)
+        public UserProfilePageViewModel(IPhotoManager photoManager, IDataManager<User> dataManager, IDialogService dialog)
         {
+            _dataManager = dataManager;
             _photoManager = photoManager;
             _dialog = dialog;
 
@@ -57,6 +64,7 @@ namespace Reminder.ViewModels
             TakePhotoCommand = new Command(OnTakePhotoAsync);
             OpenImageCommand = new Command(OnOpenImageAsync);
             DeleteImageCommand = new Command(OnDeleteImageAsync);
+            SaveUserCommand = new Command(OnSaveUserAsync);
         }
 
         #region Commands
@@ -66,9 +74,6 @@ namespace Reminder.ViewModels
         public ICommand OpenPopupCommand { get; }
 
         private void OnOpenPopupAsync(object obj) => IsOpenPopup = !IsOpenPopup;
-        #endregion
-
-        #region TakePhotoCommand
 
         /// <summary>
         /// Take a photo using the camera
@@ -109,6 +114,24 @@ namespace Reminder.ViewModels
 
             if (User != null && result == true)
                 User.Avatar = null;
+        }
+
+        /// <summary>
+        /// Save user command
+        /// </summary>
+        public ICommand SaveUserCommand { get; }
+
+        private async void OnSaveUserAsync(object obj)
+        {
+            if (User == null)
+                return;
+
+            if(User.Id == null)
+                await _dataManager.CreateAsync(User);
+            else 
+                await _dataManager.UpdateAsync(User);
+
+            await Shell.Current.GoToAsync("..");
         }
         #endregion
     }

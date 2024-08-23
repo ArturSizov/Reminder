@@ -4,7 +4,9 @@ using DevExpress.Maui;
 using DevExpress.Maui.Core;
 using FFImageLoading.Maui;
 using Microsoft.Extensions.Logging;
+using Reminder.DataAccessLayer.DAO;
 using Reminder.IoCModules;
+using SDK.Base.Abstractions;
 
 namespace Reminder
 {
@@ -52,7 +54,12 @@ namespace Reminder
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-            return builder.Build();
+            var app = builder.Build();
+
+            // a workaround to initialize the LiteDb providers before pages
+            _ = app.Services.GetRequiredService<IDataProvider<UserDAO>>();
+
+            return app;
         }
     }
 }
