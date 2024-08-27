@@ -25,7 +25,7 @@
             <Grid WidthRequest="250"
                   HeightRequest="250"
                   BackgroundColor="Transparent">
-                <controls:UserAvatar ImageSource="{Binding User.Avatar, Converter={StaticResource Base64ImageConverter}}" 
+                <controls:UserAvatar ImageSource="{Binding User.Avatar}" 
                                      BorderThickness="2"
                                      BorderColor="White"/>
                 <dx:DXBorder BackgroundColor="{dx:ThemeColor SurfaceContainerLow}"
@@ -52,16 +52,48 @@
                             CapMargin="50"/>
             <Grid HeightRequest="30" 
                   BackgroundColor="Transparent">
-                <Label Text="Осталось дней до дня рождения: 35"
-                       HorizontalOptions="CenterAndExpand"
+                <Label HorizontalOptions="CenterAndExpand"
                        VerticalOptions="CenterAndExpand"
                        FontAttributes="Bold"
-                       FontSize="14"
-                       TextColor="Red"/>
+                       FontSize="14">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span>
+                                <Span.Text>
+                                    <MultiBinding Converter="{StaticResource EventInformationTextConverter}">
+                                        <Binding Path="User.Birthday"/>
+                                        <Binding Path="User.Birthday" Converter="{StaticResource DaysBeforeTheEventConverter}"/>
+                                    </MultiBinding>
+                                </Span.Text>
+                            </Span>
+                            <Span x:Name="days"
+                                  Text="{Binding User.Birthday, Converter={StaticResource DaysBeforeTheEventConverter}}"
+                                  FontSize="16"
+                                  FontAttributes="Bold"
+                                  FontAutoScalingEnabled="True"
+                                  TextColor="{Binding Source={RelativeSource Self}, Path=Text, Converter={StaticResource RowToBrushDaysBirthdayConverter}}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding Source={x:Reference days}, Path=Text}"
+                                     Value="0">
+                            <Setter Property="TextColor"
+                                    Value="Red" />
+                            <Setter Property="FontSize"
+                                    Value="18"/>
+                            <Setter Property="FontAttributes"
+                                    Value="Bold"/>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
             </Grid>
             <dx:DXSeparator Style="{StaticResource SeparatorStyle}"
                             CapMargin="60"/>
 
+            <dx:DXSeparator Style="{StaticResource SeparatorStyle}"
+                            CapMargin="60"/>
+            <Label Text="Age:"></Label>
             <dx:DXStackLayout ItemSpacing="5"
                               Padding="10">
                 <Grid ColumnDefinitions="Auto,*"
@@ -127,7 +159,7 @@
                                      Content="{x:Static properties:Resource.DeletePhoto}"
                                      IconColor="Red"
                                      Command="{Binding DeleteImageCommand}"
-                                     IsVisible="{Binding User.Avatar, Converter={StaticResource IsVisibleButtonConverter}}"/>
+                                     IsVisible="{Binding User.Avatar, Converter={StaticResource IsVisibleConverter}}"/>
                     </dx:DXStackLayout>
                 </controls:DialogPopup.CustomContent>
             </controls:DialogPopup>

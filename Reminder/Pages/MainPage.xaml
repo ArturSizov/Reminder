@@ -5,6 +5,7 @@
                xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
                xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
                xmlns:ffimage="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                xmlns:vm="clr-namespace:Reminder.ViewModels"
                xmlns:converters="clr-namespace:Reminder.Converters"
                xmlns:avatar="clr-namespace:Reminder.Controls"        
@@ -16,8 +17,15 @@
     <Shell.TitleView>
         <Border StrokeThickness="0" 
                 Stroke="Transparent"
-                IsVisible="{Binding DataManager.Items.Count, Converter={StaticResource IsVisibleConverter}}"
                 Padding="0,0,10,0">
+            <Border.Triggers>
+                <DataTrigger TargetType="Border"
+                             Binding="{Binding DataManager.Items.Count}"
+                             Value="0">
+                    <Setter Property="IsVisible"
+                            Value="False"/>
+                </DataTrigger>
+            </Border.Triggers>
 
             <dxe:TextEdit x:Name="search"
                   EndIcon="search" 
@@ -34,16 +42,50 @@
     </Shell.TitleView>
 
     <Grid>
+        <dx:DXStackLayout Grid.Row="1" 
+                          ZIndex="1"
+                          Orientation="Vertical"
+                          VerticalOptions="Center"
+                          HorizontalOptions="Center"
+                          IsVisible="{Binding IsVisebleErrorMessage}">
+            <dx:DXStackLayout.Triggers>
+                <DataTrigger TargetType="dx:DXStackLayout"
+                             Binding="{Binding DataManager.Items.Count}"
+                             Value="0">
+                    <Setter Property="IsVisible"
+                            Value="True"/>
+                </DataTrigger>
+            </dx:DXStackLayout.Triggers>
+            <Image Source="search"
+                   WidthRequest="50"
+                   HeightRequest="50"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center">
+                <Image.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray400}"/>
+                </Image.Behaviors>
+            </Image>
+            <Label Text="{x:Static properties:Resource.ListEmpty}"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"/>
+        </dx:DXStackLayout>
         <dxg:DataGridView Grid.Row="0"
-                          IsVisible="{Binding DataManager.Items.Count, Converter={StaticResource IsVisibleConverter}}"
                           IsColumnHeaderVisible="False"
-                          ItemsSource="{Binding DataManager.Items, Mode=TwoWay}"
+                          ItemsSource="{Binding DataManager.Items}"
                           SelectionMode="None"  
                           AllowDragDropRows="True" 
                           AllowDragDropSortedRows="True" 
                           AllowGroupCollapse="False"
                           FilterString="{Binding SearchText}"
                           Scrolled="DataGridView_Scrolled">
+            <dxg:DataGridView.Triggers>
+                <Trigger TargetType="dxg:DataGridView"
+                         Property="ItemsSource"
+                         Value="0">
+                    <Setter Property="IsVisible"
+                            Value="False"/>
+                </Trigger>
+            </dxg:DataGridView.Triggers>
             <dxg:DataGridView.EndSwipeItems>
                 <dxg:GridSwipeItem Caption="{x:Static properties:Resource.Delete}" 
                                    BackgroundColor="#ff3b30" 
@@ -64,7 +106,7 @@
                             <Grid ColumnDefinitions="80, *"
                                   Padding="5">
                                 <avatar:UserAvatar Grid.Row="0"
-                                                   ImageSource="{Binding Item.Avatar, Converter={StaticResource Base64ImageConverter}}"
+                                                   ImageSource="{Binding Item.Avatar}"
                                                    WidthRequest="80"
                                                    HeightRequest="80"/>
                                 
@@ -78,21 +120,35 @@
                                         <Label Text="{Binding Item.LastName}"
                                                FontAttributes="Bold"
                                                TextColor="{DynamicResource TextColor}"
-                                               Margin="{Binding Item.LastName, Converter={StaticResource LabelMarginConverter}}"/>
+                                               Margin="5,0,0,0"
+                                               IsVisible="{Binding Item.LastName, Converter={StaticResource IsVisibleConverter}}"/>
                                         <Label Text="{Binding Item.Name}"
                                                FontAttributes="Bold"
                                                TextColor="{DynamicResource TextColor}"
-                                               Margin="{Binding Item.Name, Converter={StaticResource LabelMarginConverter}}"/>
+                                               Margin="5,0,0,0"
+                                               IsVisible="{Binding Item.Name, Converter={StaticResource IsVisibleConverter}}"/>
                                         <Label Text="{Binding Item.MiddleName}" 
                                                FontAttributes="Bold"
                                                TextColor="{DynamicResource TextColor}"
-                                               Margin="{Binding Item.MiddleName, Converter={StaticResource LabelMarginConverter}}"/>
+                                               Margin="5,0,0,0"
+                                               IsVisible="{Binding Item.MiddleName, Converter={StaticResource IsVisibleConverter}}"/>
                                     </StackLayout>
                                     <Label Text="{Binding Item.Position}" 
                                            Margin="5,0,0,0"
                                            TextColor="{DynamicResource PositionColor}" 
                                            LineBreakMode="TailTruncation" 
-                                           VerticalOptions="Start"/>
+                                           VerticalOptions="Start"
+                                           IsVisible="{Binding Item.Position, Converter={StaticResource IsVisibleConverter}}"/>
+
+                                    <Label Text="Скоро празднует день рождения" 
+                                           Margin="5,0,0,0"
+                                           FontFamily="Inkfree"
+                                           FontAttributes="Bold"
+                                           FontSize="18"
+                                           TextColor="Red" 
+                                           LineBreakMode="TailTruncation" 
+                                           VerticalOptions="Start"
+                                           IsVisible="False"/>
                                 </StackLayout>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainPageViewModel}}, Path=OpenUserProfileCommand}"

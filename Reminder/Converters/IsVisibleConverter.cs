@@ -6,11 +6,8 @@ namespace Reminder.Converters
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if(value is int count)
-            {
-                if (count == 0)
-                    return false;
-            }
+            if (value == null || (string)value == string.Empty)
+                return false;
 
             return true;
         }

@@ -54,8 +54,6 @@ namespace Reminder.ViewModels
         {
             DataManager = dataManager;
 
-            Task.Run(async () => await DataManager.ReadAllUsersAsync());
-
             themes.GetSelectedTheme();
 
             _dialogService = dialogService;
@@ -64,9 +62,6 @@ namespace Reminder.ViewModels
             SearchCommand = new Command<string>(Search);
             AddUserCommand = new Command(OnAddUserAsync);
             DeleteUserCommand = new Command<User>(OnDeleteUserAsync);
-
-            if (DataManager.Items.Count == 0)
-                IsVisebleErrorMessage = true;
         }
         #endregion
 
@@ -144,6 +139,10 @@ namespace Reminder.ViewModels
             if (result == true)
                 await DataManager.DeleteAsync(user);
         }
+        #endregion
+
+        #region Methods
+   
         #endregion
     }
 }

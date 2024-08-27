@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Extensions;
-using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
+﻿using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
 
 
 namespace Reminder

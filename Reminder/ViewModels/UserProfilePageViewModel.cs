@@ -113,7 +113,7 @@ namespace Reminder.ViewModels
             var result = await _dialog.ShowPopupAsync(SDK.Base.Properties.Resource.DeleteAvatar);
 
             if (User != null && result == true)
-                User.Avatar = null;
+                User.Avatar = _photoManager.Delete(User?.Avatar);
         }
 
         /// <summary>

@@ -3,6 +3,7 @@ using Reminder.Auxiliary;
 using Reminder.DataAccessLayer.DAO;
 using Reminder.Models;
 using SDK.Base.Abstractions;
+using SDK.Base.Services;
 using System.Collections.ObjectModel;
 
 namespace Reminder.Managers
@@ -16,14 +17,21 @@ namespace Reminder.Managers
         /// </summary>
         private readonly IDataProvider<UserDAO> _dataProvider;
 
+        /// <summary>
+        /// User photo manger
+        /// </summary>
+        private readonly IPhotoManager _photoManager;
+
         #endregion
         /// <summary>
         /// Ctor
         /// </summary>
         /// <param name="dataProvider"></param>
-        public UserManager(IDataProvider<UserDAO> dataProvider)
+        public UserManager(IDataProvider<UserDAO> dataProvider, IPhotoManager photoManager)
         {
+            Task.Run(ReadAllUsersAsync);
             _dataProvider = dataProvider;
+            _photoManager = photoManager;
         }
 
         /// <inheritdoc/>
@@ -55,6 +63,7 @@ namespace Reminder.Managers
         public Task<int> DeleteAsync(User item)
         {
             Items.Remove(item);
+            _photoManager.Delete(item.Avatar);
             return _dataProvider.DeleteAsync(item.ToDAO());
         }
 
