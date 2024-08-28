@@ -28,6 +28,11 @@ namespace Reminder.ViewModels
         /// </summary>
         private readonly IDialogService _dialogService;
 
+        /// <summary>
+        /// Disables the button while the command is running
+        /// </summary>
+        private bool? _addUserIsEnabled;
+
         #endregion
 
         #region Public property
@@ -46,6 +51,12 @@ namespace Reminder.ViewModels
         /// Shows or hides the error
         /// </summary>
         public bool? IsVisebleErrorMessage { get => _isVisebleErrorMessage; set => SetProperty(ref _isVisebleErrorMessage, value); }
+
+        /// <summary>
+        /// Disables the button while the command is running
+        /// </summary>
+        public bool? AddUserIsEnabled { get => _addUserIsEnabled; set => SetProperty(ref _addUserIsEnabled, value); }
+
         #endregion
 
         #region Ctor
@@ -120,11 +131,11 @@ namespace Reminder.ViewModels
 
         private async void OnAddUserAsync(object obj)
         {
-            await _dialogService.ShowLoadingAsync(SDK.Base.Properties.Resource.Loading);
+           AddUserIsEnabled = await _dialogService.ShowLoadingAsync(SDK.Base.Properties.Resource.Loading);
 
-            await Shell.Current.GoToAsync(nameof(UserProfilePage));
+           await Shell.Current.GoToAsync(nameof(UserProfilePage));
 
-            _dialogService.CloseLoadingPopup();
+           AddUserIsEnabled = _dialogService.CloseLoadingPopup();
         }
 
         /// <summary>

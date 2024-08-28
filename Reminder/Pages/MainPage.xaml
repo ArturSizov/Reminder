@@ -178,6 +178,7 @@
                      IconWidth="35"
                      IconHeight="35"
                      Margin="10"
-                     Command="{Binding AddUserCommand}"/>
+                     Command="{Binding AddUserCommand}"
+                     IsEnabled="{Binding AddUserIsEnabled}"/>
     </Grid>
 </base:BasePage>
