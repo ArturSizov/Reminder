@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Reminder.Abstractions;
 using Reminder.Models;
 using Reminder.Pages;
@@ -88,7 +87,7 @@ namespace Reminder.ViewModels
                         Birthday = user.Birthday,
                         LastName = user.LastName,
                         MiddleName = user.MiddleName,
-                        Position = user.Position,
+                        Note = user.Note,
                         Id = user.Id
                     }
                 }});

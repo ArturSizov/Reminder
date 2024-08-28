@@ -91,9 +91,20 @@
             <dx:DXSeparator Style="{StaticResource SeparatorStyle}"
                             CapMargin="60"/>
 
+            <Label HorizontalOptions="CenterAndExpand">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{x:Static properties:Resource.Age}"/>
+                        <Span Text="{Binding User.Birthday, Converter={StaticResource AgeConverter}}"
+                              FontAttributes="Bold"
+                              FontSize="16"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
             <dx:DXSeparator Style="{StaticResource SeparatorStyle}"
                             CapMargin="60"/>
-            <Label Text="Age:"></Label>
+
             <dx:DXStackLayout ItemSpacing="5"
                               Padding="10">
                 <Grid ColumnDefinitions="Auto,*"
@@ -120,8 +131,8 @@
                                 Source="supervised"
                                 WidthRequest="40"/>
                     <dxe:TextEdit Grid.Column="1"
-                                  Text="{Binding User.Position}"
-                                  LabelText="{x:Static properties:Resource.Position}"/>
+                                  Text="{Binding User.Note}"
+                                  LabelText="{x:Static properties:Resource.Note}"/>
                 </Grid>
                 <Grid ColumnDefinitions="Auto,*"
                       HeightRequest="60">
@@ -135,7 +146,6 @@
                                   DisplayFormat="dd.MM.yyyy"
                                   MinDate="1920.01.01"
                                   MaxDate="{x:Static sys:DateTime.Now}"
-                                  ClearIconVisibility="Always"
                                   DateIconColor="#d8d842"/>
                 </Grid>
             </dx:DXStackLayout>

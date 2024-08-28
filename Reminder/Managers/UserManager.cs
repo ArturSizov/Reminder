@@ -100,7 +100,7 @@ namespace Reminder.Managers
             user.Name = item.Name;
             user.LastName = item.LastName;
             user.MiddleName = item.MiddleName;
-            user.Position = item.Position;
+            user.Note = item.Note;
             user.Birthday = item.Birthday;
             user.Avatar = item.Avatar;
 

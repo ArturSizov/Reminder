@@ -133,14 +133,14 @@
                                                Margin="5,0,0,0"
                                                IsVisible="{Binding Item.MiddleName, Converter={StaticResource IsVisibleConverter}}"/>
                                     </StackLayout>
-                                    <Label Text="{Binding Item.Position}" 
+                                    <Label Text="{Binding Item.Note}" 
                                            Margin="5,0,0,0"
                                            TextColor="{DynamicResource PositionColor}" 
                                            LineBreakMode="TailTruncation" 
                                            VerticalOptions="Start"
-                                           IsVisible="{Binding Item.Position, Converter={StaticResource IsVisibleConverter}}"/>
+                                           IsVisible="{Binding Item.Note, Converter={StaticResource IsVisibleConverter}}"/>
 
-                                    <Label Text="Скоро празднует день рождения" 
+                                    <Label Text="{x:Static properties:Resource.Congratulate}" 
                                            Margin="5,0,0,0"
                                            FontFamily="Inkfree"
                                            FontAttributes="Bold"
@@ -148,7 +148,16 @@
                                            TextColor="Red" 
                                            LineBreakMode="TailTruncation" 
                                            VerticalOptions="Start"
-                                           IsVisible="False"/>
+                                           IsVisible="False">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding Item.Birthday, Converter={StaticResource DaysBeforeTheEventConverter}}"
+                                                         Value="0">
+                                                <Setter Property="IsVisible"
+                                                        Value="True"/>
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
                                 </StackLayout>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainPageViewModel}}, Path=OpenUserProfileCommand}"
