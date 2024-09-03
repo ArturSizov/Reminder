@@ -29,6 +29,11 @@ namespace Reminder.ViewModels
         private readonly IDialogService _dialogService;
 
         /// <summary>
+        /// Notification services
+        /// </summary>
+        private readonly INotificationServices _notificationServices;
+
+        /// <summary>
         /// Disables the button while the command is running
         /// </summary>
         private bool? _addUserIsEnabled;
@@ -60,13 +65,14 @@ namespace Reminder.ViewModels
         #endregion
 
         #region Ctor
-        public MainPageViewModel(IThemesManager themes, IDataManager<User> dataManager, IDialogService dialogService)
+        public MainPageViewModel(IThemesManager themes, IDataManager<User> dataManager, IDialogService dialogService, INotificationServices notificationServices)
         {
             DataManager = dataManager;
 
             themes.GetSelectedTheme();
 
             _dialogService = dialogService;
+            _notificationServices = notificationServices;
 
             OpenUserProfileCommand = new Command<User>(OpenUserProfileAsync);
             SearchCommand = new Command<string>(Search);
@@ -145,9 +151,13 @@ namespace Reminder.ViewModels
 
         private async void OnDeleteUserAsync(User user)
         {
-            var result = await _dialogService.ShowPopupAsync($"Вы действительно хотите удалить всю информацию {user.Name}?");
-            if (result == true)
+            var result = await _dialogService.ShowPopupAsync($"{SDK.Base.Properties.Resource.DeleteUser} {user.Name}?");
+
+            if (result == true && user.Id != null)
+            {
                 await DataManager.DeleteAsync(user);
+                _notificationServices.Cancel((int)user.Id);
+            }
         }
         #endregion
 

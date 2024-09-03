@@ -6,6 +6,7 @@
                xmlns:properties="clr-namespace:SDK.Base.Properties;assembly=SDK.Base"
                xmlns:controls="clr-namespace:Reminder.Controls"
                xmlns:dxs="http://schemas.devexpress.com/maui"
+               xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
                xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui">
 
     <Shell.TitleView>
@@ -24,58 +25,68 @@
         </StackLayout>
     </Shell.TitleView>
 
-    <!--<Grid>-->
-    <controls:DialogPopup IsOpen="{Binding IsOpenPopup}"
+    <Grid>
+        <controls:DialogPopup IsOpen="{Binding IsOpenPopup}"
                           Title="{x:Static properties:Resource.SettingTheme}">
-        <controls:DialogPopup.CustomContent>
-            <dxs:DXStackLayout Orientation="Vertical">
-                <dxs:DXButton Style="{StaticResource ButtonStyle}"
+            <controls:DialogPopup.CustomContent>
+                <dxs:DXStackLayout Orientation="Vertical">
+                    <dxs:DXButton Style="{StaticResource ButtonStyle}"
                               Content="{x:Static properties:Resource.DarkTheme}"
                               Icon="dark_mode"
                               IconColor="Black"
                               DisabledIconColor="Black"
                               Command="{Binding SetThemeCommand}"
                               CommandParameter="{Binding ThemesManager.Themes[0]}">
-                    <dxs:DXButton.Triggers>
-                        <DataTrigger Binding="{Binding SelectedTheme}"
+                        <dxs:DXButton.Triggers>
+                            <DataTrigger Binding="{Binding SelectedTheme}"
                                      TargetType="dxs:DXButton"
                                      Value="Dark">
-                            <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-                    </dxs:DXButton.Triggers>
-                </dxs:DXButton>
-                <dxs:DXButton Style="{StaticResource ButtonStyle}"
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </dxs:DXButton.Triggers>
+                    </dxs:DXButton>
+                    <dxs:DXButton Style="{StaticResource ButtonStyle}"
                               Content="{x:Static properties:Resource.LightTheme}"
                               Icon="light_mode"
                               IconColor="#f7fc5f"
                               DisabledIconColor="#f7fc5f"
                               Command="{Binding SetThemeCommand}"
                               CommandParameter="{Binding ThemesManager.Themes[1]}">
-                    <dxs:DXButton.Triggers>
-                        <DataTrigger Binding="{Binding SelectedTheme}"
+                        <dxs:DXButton.Triggers>
+                            <DataTrigger Binding="{Binding SelectedTheme}"
                                      TargetType="dxs:DXButton"
                                      Value="Light">
-                            <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-                    </dxs:DXButton.Triggers>
-                </dxs:DXButton>
-                <dxs:DXButton Style="{StaticResource ButtonStyle}"
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </dxs:DXButton.Triggers>
+                    </dxs:DXButton>
+                    <dxs:DXButton Style="{StaticResource ButtonStyle}"
                               Content="{x:Static properties:Resource.SystemTheme}"
                               Icon="settings"
                               IconColor="#0b920d"
                               DisabledIconColor="#0b920d"
                               Command="{Binding SetThemeCommand}"
                               CommandParameter="{Binding ThemesManager.Themes[2]}">
-                    <dxs:DXButton.Triggers>
-                        <DataTrigger Binding="{Binding SelectedTheme}"
+                        <dxs:DXButton.Triggers>
+                            <DataTrigger Binding="{Binding SelectedTheme}"
                                      TargetType="dxs:DXButton"
                                      Value="Unspecified">
-                            <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-                    </dxs:DXButton.Triggers>
-                </dxs:DXButton>
-            </dxs:DXStackLayout>
-        </controls:DialogPopup.CustomContent>
-    </controls:DialogPopup>
-    <!--</Grid>-->
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </dxs:DXButton.Triggers>
+                    </dxs:DXButton>
+                </dxs:DXStackLayout>
+            </controls:DialogPopup.CustomContent>
+        </controls:DialogPopup>
+        <dxs:TimeEdit HeightRequest="60"
+                      VerticalOptions="Start"
+                      Time="{Binding Time}"
+                      Margin="5"
+                      LabelText="{x:Static properties:Resource.AlertTime}"
+                      StartIcon="alarm"
+                      TimeIcon="edit"
+                      StartIconColor="#d8d842"
+                      TimeIconColor="#d8d842"
+                      TimeChangedCommand="{Binding SetTimeCommand}"/>
+    </Grid>
 </base:BasePage>

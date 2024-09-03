@@ -5,6 +5,7 @@
                xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
                xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
                CanBeDismissedByTappingOutsideOfPopup="False"
+               xmlns:properties="clr-namespace:SDK.Base.Properties;assembly=SDK.Base"
                xmlns:vm="clr-namespace:SDK.Base.ViewModels.Popup;assembly=SDK.Base"
                x:DataType="vm:UserDialogPopupViewModel">
 
@@ -16,12 +17,12 @@
                           HorizontalOptions="EndAndExpand"
                           VerticalOptions="EndAndExpand"
                           ItemSpacing="15">
-            <dx:DXButton Content="Да"
+            <dx:DXButton Content="{x:Static properties:Resource.No}"
+                         Clicked="No_Clicked"
+                         MinimumWidthRequest="80"/>
+            <dx:DXButton Content="{x:Static properties:Resource.Yes}"
                          Clicked="Yes_Clicked"
                          BackgroundColor="Red"
-                         MinimumWidthRequest="80"/>
-            <dx:DXButton Content="Нет"
-                         Clicked="No_Clicked"
                          MinimumWidthRequest="80"/>
         </dx:DXStackLayout>
     </Grid>

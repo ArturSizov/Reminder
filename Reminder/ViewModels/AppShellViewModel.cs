@@ -1,4 +1,5 @@
-﻿using SDK.Base.ViewModels;
+﻿using SDK.Base.Abstractions;
+using SDK.Base.ViewModels;
 using System.Windows.Input;
 
 namespace Reminder.ViewModels
@@ -10,6 +11,12 @@ namespace Reminder.ViewModels
         ///  Flyout is presented
         /// </summary>
         private bool _flyoutIsPresented;
+
+        /// <summary>
+        /// Dialog service
+        /// </summary>
+        private readonly IDialogService _dialogService;
+
         #endregion
 
         #region Public property
@@ -29,10 +36,12 @@ namespace Reminder.ViewModels
         /// <summary>
         /// Ctor
         /// </summary>
-        public AppShellViewModel()
+        public AppShellViewModel(IDialogService dialogService)
         {
+            _dialogService = dialogService;
             OpenPageCommand = new Command<string>(OnOpenPageAsync);
         }
+
 
         #region Commands
         /// <summary>
@@ -42,9 +51,13 @@ namespace Reminder.ViewModels
 
         private async void OnOpenPageAsync(string url)
         {
+            await _dialogService.ShowLoadingAsync(SDK.Base.Properties.Resource.Loading);
+
             await Shell.Current.GoToAsync(url);
 
             FlyoutIsPresented = false;
+
+            _dialogService.CloseLoadingPopup();
         }
         #endregion
     }

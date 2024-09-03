@@ -4,7 +4,26 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
     xmlns:dxs="http://schemas.devexpress.com/maui"
-    xmlns:dxg="clr-namespace:DevExpress.Maui.DataGrid;assembly=DevExpress.Maui.DataGrid">
+    xmlns:dxg="clr-namespace:DevExpress.Maui.DataGrid;assembly=DevExpress.Maui.DataGrid"
+    xmlns:properties="clr-namespace:SDK.Base.Properties;assembly=SDK.Base">
+
+    <DataTemplate x:Key="CustomTemplate">
+        <HorizontalStackLayout Padding="0,0,10,5"
+                               HorizontalOptions="End">
+            <Button Text="Ok" 
+                    BackgroundColor="Green" 
+                    Command="{Binding ConfirmCommand}"
+                    Margin="2"/>
+            <Button Text="{x:Static properties:Resource.Cancel}" 
+                    BackgroundColor="Red"
+                    Command="{Binding CancelCommand}" 
+                    Margin="2"/>
+        </HorizontalStackLayout>
+    </DataTemplate>
+
+    <Style TargetType="dxs:DateEdit">
+        <Setter Property="PickerButtonAreaTemplate" Value="{StaticResource CustomTemplate}"/>
+    </Style>
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{dx:ThemeColor Primary}" />

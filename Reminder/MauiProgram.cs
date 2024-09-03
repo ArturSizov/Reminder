@@ -4,6 +4,7 @@ using DevExpress.Maui;
 using DevExpress.Maui.Core;
 using FFImageLoading.Maui;
 using Microsoft.Extensions.Logging;
+using Plugin.LocalNotification;
 using Reminder.DataAccessLayer.DAO;
 using Reminder.IoCModules;
 using SDK.Base.Abstractions;
@@ -29,6 +30,7 @@ namespace Reminder
                 .UseDevExpressDataGrid()
                 .UseDevExpressScheduler()
                 .UseFFImageLoading()
+                .UseLocalNotification()
                 .UseUserDialogs(true, () =>
                 {
 #if ANDROID

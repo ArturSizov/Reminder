@@ -11,7 +11,7 @@ namespace Reminder.Models
         private string? _middleName;
         private string? _note;
         private string? _avatar;
-        private DateTime? _birthday = new DateTime(1989, 7, 29);
+        private DateTime _birthday = new DateTime(1989, 7, 29);
         #endregion
 
         #region Public property
@@ -21,7 +21,7 @@ namespace Reminder.Models
         public string? MiddleName { get => _middleName; set => SetProperty(ref _middleName, value); }
         public string? Note { get => _note; set => SetProperty(ref _note, value); }
         public string? Avatar { get => _avatar; set => SetProperty(ref _avatar, value); }
-        public DateTime? Birthday { get => _birthday; set => SetProperty(ref _birthday, value); }
+        public DateTime Birthday { get => _birthday; set => SetProperty(ref _birthday, value); }
 
         #endregion
     }

@@ -62,7 +62,7 @@
                    VerticalOptions="Center"
                    HorizontalOptions="Center">
                 <Image.Behaviors>
-                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray400}"/>
+                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray500}"/>
                 </Image.Behaviors>
             </Image>
             <Label Text="{x:Static properties:Resource.ListEmpty}"

@@ -18,7 +18,7 @@ namespace Reminder.Auxiliary
             Id = dao?.Id,
             Name = dao?.Name,
             Avatar = dao?.Avatar,
-            Birthday = dao?.Birthday,
+            Birthday = dao!.Birthday,
             LastName = dao?.LastName,
             MiddleName = dao?.MiddleName,
             Note = dao?.Note
@@ -35,7 +35,7 @@ namespace Reminder.Auxiliary
            Name = model?.Name,
            Note = model?.Note,
            Avatar = model?.Avatar,
-           Birthday = model?.Birthday,
+           Birthday = model!.Birthday,
            MiddleName= model?.MiddleName,
            LastName = model?.LastName
         };

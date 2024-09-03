@@ -2,7 +2,9 @@
 using Reminder.Models;
 using Reminder.Pages;
 using SDK.Base.Abstractions;
+using SDK.Base.Extensions;
 using SDK.Base.ViewModels;
+using System.Runtime;
 using System.Windows.Input;
 
 namespace Reminder.ViewModels
@@ -39,6 +41,16 @@ namespace Reminder.ViewModels
         /// </summary>
         private readonly IDialogService _dialog;
 
+        /// <summary>
+        /// Notification services
+        /// </summary>
+        private readonly INotificationServices _notificationServices;
+
+        /// <summary>
+        /// App settings
+        /// </summary>
+        private readonly IAppSettings _settings;
+
         #endregion
 
         #region Public property
@@ -54,11 +66,14 @@ namespace Reminder.ViewModels
 
         #endregion
 
-        public UserProfilePageViewModel(IPhotoManager photoManager, IDataManager<User> dataManager, IDialogService dialog)
+        public UserProfilePageViewModel(IPhotoManager photoManager, IDataManager<User> dataManager, IDialogService dialog, INotificationServices notificationServices,
+            IAppSettings settings)
         {
             _dataManager = dataManager;
             _photoManager = photoManager;
             _dialog = dialog;
+            _notificationServices = notificationServices;
+            _settings = settings;
 
             OpenPopupCommand = new Command(OnOpenPopupAsync);
             TakePhotoCommand = new Command(OnTakePhotoAsync);
@@ -128,8 +143,14 @@ namespace Reminder.ViewModels
 
             if(User.Id == null)
                 await _dataManager.CreateAsync(User);
-            else 
+            else
+            {
                 await _dataManager.UpdateAsync(User);
+                _notificationServices.Cancel((int)User.Id);
+            }              
+
+            if(User.Id != null)
+                await _notificationServices.AddNotificationAsync((int)User.Id, $"{SDK.Base.Properties.Resource.Title}: {User.LastName} {User.Name} {User.MiddleName}.", SDK.Base.Properties.Resource.Congratulate, User.Birthday, _settings.Time);
 
             await Shell.Current.GoToAsync("..");
         }
