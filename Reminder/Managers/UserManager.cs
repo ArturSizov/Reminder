@@ -3,7 +3,6 @@ using Reminder.Auxiliary;
 using Reminder.DataAccessLayer.DAO;
 using Reminder.Models;
 using SDK.Base.Abstractions;
-using SDK.Base.Services;
 using System.Collections.ObjectModel;
 
 namespace Reminder.Managers
@@ -17,29 +16,24 @@ namespace Reminder.Managers
         /// </summary>
         private readonly IDataProvider<UserDAO> _dataProvider;
 
-        /// <summary>
-        /// User photo manger
-        /// </summary>
-        private readonly IPhotoManager _photoManager;
-
         #endregion
         /// <summary>
         /// Ctor
         /// </summary>
         /// <param name="dataProvider"></param>
-        public UserManager(IDataProvider<UserDAO> dataProvider, IPhotoManager photoManager)
+        public UserManager(IDataProvider<UserDAO> dataProvider)
         {
             Task.Run(ReadAllUsersAsync);
             _dataProvider = dataProvider;
-            _photoManager = photoManager;
         }
 
         /// <inheritdoc/>
         public ObservableCollection<User> Items { get; set; } = new();
 
-        public Task<int> CreateAsync(User item)
+        /// <inheritdoc/>
+        public async Task<bool> CreateAsync(User item)
         {
-            int? id;
+            int id;
 
             if (Items.Count <= 0)
                 id = 1;
@@ -48,23 +42,42 @@ namespace Reminder.Managers
 
             item.Id = id;
 
+            var result = await _dataProvider.CreateAsync(item.ToDAO());
+
+            if (!result)
+                return false;
+
             Items.Add(item);
-            return _dataProvider.CreateAsync(item.ToDAO());
+
+            return true;
         }
 
         /// <inheritdoc/>
-        public Task<int> DeleteAllAsync()
+        public async Task<bool> DeleteAllAsync()
         {
-            Items.Clear();
-            return _dataProvider.DeleteAllAsync();
+            var result = await _dataProvider.DeleteAllAsync();
+
+            if (result)
+            {
+                Items.Clear();
+                return true;
+            }
+
+            return false;  
         }
 
         /// <inheritdoc/>
-        public Task<int> DeleteAsync(User item)
+        public async Task<bool> DeleteAsync(User item)
         {
-            Items.Remove(item);
-            _photoManager.Delete(item.Avatar);
-            return _dataProvider.DeleteAsync(item.ToDAO());
+            var result = await _dataProvider.DeleteAsync(item.ToDAO());
+
+            if(result)
+            {
+                Items.Remove(item);
+                return true;
+            }
+
+            return false;
         }
 
         /// <inheritdoc/>
@@ -89,22 +102,29 @@ namespace Reminder.Managers
         }
 
         /// <inheritdoc/>
-        public Task<int> UpdateAsync(User item)
+        public async Task<bool> UpdateAsync(User item)
         {
             var user = Items.FirstOrDefault(x => x.Id == item.Id);
 
             if (user == null)
-                return Task.FromResult(0);
+                return false;
 
-            user.Id = item.Id;
-            user.Name = item.Name;
-            user.LastName = item.LastName;
-            user.MiddleName = item.MiddleName;
-            user.Note = item.Note;
-            user.Birthday = item.Birthday;
-            user.Avatar = item.Avatar;
+            var result = await _dataProvider.UpdateAsync(item.ToDAO());
 
-            return _dataProvider.UpdateAsync(item.ToDAO());
+            if(result)
+            {
+                user.Id = item.Id;
+                user.Name = item.Name;
+                user.LastName = item.LastName;
+                user.MiddleName = item.MiddleName;
+                user.Note = item.Note;
+                user.Birthday = item.Birthday;
+                user.Avatar = item.Avatar;
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

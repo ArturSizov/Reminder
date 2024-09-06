@@ -31,7 +31,6 @@ namespace Reminder.IoCModules
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton(new DbConnectionOptions { ConnectionString = Path.Combine(FileSystem.AppDataDirectory, "reminder.db") });
             services.AddSingleton<INotificationServices, NotificationServices>();
-
         }
     }
 }

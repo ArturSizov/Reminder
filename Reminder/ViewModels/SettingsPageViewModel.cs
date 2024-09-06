@@ -3,7 +3,6 @@ using Reminder.Models;
 using SDK.Base.Abstractions;
 using SDK.Base.Extensions;
 using SDK.Base.ViewModels;
-using System.Runtime;
 using System.Windows.Input;
 
 namespace Reminder.ViewModels
@@ -111,12 +110,8 @@ namespace Reminder.ViewModels
             _settings.Time = Time;
 
             foreach (var item in _dataManager.Items)
-            {
-                if (item.Id == null)
-                    return;
+                _notificationServices.AddNotificationAsync(item.Id, $"{SDK.Base.Properties.Resource.Title}: {item.LastName} {item.Name} {item.MiddleName}.", SDK.Base.Properties.Resource.Congratulate, item.Birthday, _settings.Time);
 
-                _notificationServices.AddNotificationAsync((int)item.Id, $"{SDK.Base.Properties.Resource.Title}: {item.LastName} {item.Name} {item.MiddleName}.", SDK.Base.Properties.Resource.Congratulate, item.Birthday, _settings.Time);
-            }
         }
         #endregion
     }

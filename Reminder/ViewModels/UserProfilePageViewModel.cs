@@ -141,18 +141,27 @@ namespace Reminder.ViewModels
             if (User == null)
                 return;
 
-            if(User.Id == null)
-                await _dataManager.CreateAsync(User);
+            if(User.Id == 0)
+            {
+                if(!await _dataManager.CreateAsync(User))
+                {
+                    //TODO: error message
+                    return;
+                }
+            }   
             else
             {
-                await _dataManager.UpdateAsync(User);
-                _notificationServices.Cancel((int)User.Id);
+                if (!await _dataManager.UpdateAsync(User))
+                {
+                    //TODO: error message
+                    return;
+                }
+                _notificationServices.Cancel(User.Id);
             }              
 
-            if(User.Id != null)
-                await _notificationServices.AddNotificationAsync((int)User.Id, $"{SDK.Base.Properties.Resource.Title}: {User.LastName} {User.Name} {User.MiddleName}.", SDK.Base.Properties.Resource.Congratulate, User.Birthday, _settings.Time);
+            await _notificationServices.AddNotificationAsync(User.Id, $"{SDK.Base.Properties.Resource.Title}: {User.LastName} {User.Name} {User.MiddleName}.", SDK.Base.Properties.Resource.Congratulate, User.Birthday, _settings.Time);
 
-            await Shell.Current.GoToAsync("..");
+            await Shell.Current.Navigation.PopAsync();
         }
         #endregion
     }

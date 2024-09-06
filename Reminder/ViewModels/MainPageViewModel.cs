@@ -3,7 +3,9 @@ using Reminder.Abstractions;
 using Reminder.Models;
 using Reminder.Pages;
 using SDK.Base.Abstractions;
+using SDK.Base.Services;
 using SDK.Base.ViewModels;
+using static System.Net.WebRequestMethods;
 
 namespace Reminder.ViewModels
 {
@@ -32,6 +34,11 @@ namespace Reminder.ViewModels
         /// Notification services
         /// </summary>
         private readonly INotificationServices _notificationServices;
+
+        /// <summary>
+        /// User photo manager
+        /// </summary>
+        private readonly IPhotoManager _photoManager;
 
         /// <summary>
         /// Disables the button while the command is running
@@ -65,7 +72,8 @@ namespace Reminder.ViewModels
         #endregion
 
         #region Ctor
-        public MainPageViewModel(IThemesManager themes, IDataManager<User> dataManager, IDialogService dialogService, INotificationServices notificationServices)
+        public MainPageViewModel(IThemesManager themes, IDataManager<User> dataManager, IDialogService dialogService, INotificationServices notificationServices,
+            IPhotoManager photoManager)
         {
             DataManager = dataManager;
 
@@ -73,6 +81,7 @@ namespace Reminder.ViewModels
 
             _dialogService = dialogService;
             _notificationServices = notificationServices;
+            _photoManager = photoManager;
 
             OpenUserProfileCommand = new Command<User>(OpenUserProfileAsync);
             SearchCommand = new Command<string>(Search);
@@ -141,7 +150,7 @@ namespace Reminder.ViewModels
 
            await Shell.Current.GoToAsync(nameof(UserProfilePage));
 
-           AddUserIsEnabled = _dialogService.CloseLoadingPopup();
+            AddUserIsEnabled = _dialogService.CloseLoadingPopup();
         }
 
         /// <summary>
@@ -153,10 +162,17 @@ namespace Reminder.ViewModels
         {
             var result = await _dialogService.ShowPopupAsync($"{SDK.Base.Properties.Resource.DeleteUser} {user.Name}?");
 
-            if (result == true && user.Id != null)
+            if (result == true)
             {
-                await DataManager.DeleteAsync(user);
-                _notificationServices.Cancel((int)user.Id);
+                if(!await DataManager.DeleteAsync(user))
+                {
+                    //TODO: error message
+                    return;
+                }
+
+                _photoManager.Delete(user.Avatar);
+                
+                _notificationServices.Cancel(user.Id);
             }
         }
         #endregion

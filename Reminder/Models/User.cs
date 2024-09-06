@@ -5,7 +5,7 @@ namespace Reminder.Models
     public class User : ViewModelBase
     {
         #region Private property
-        private int? _id;
+        private int _id;
         private string? _name;
         private string? _lastName;
         private string? _middleName;
@@ -15,7 +15,7 @@ namespace Reminder.Models
         #endregion
 
         #region Public property
-        public int? Id { get => _id; set => SetProperty(ref _id, value); }
+        public int Id { get => _id; set => SetProperty(ref _id, value); }
         public string? Name { get => _name; set => SetProperty(ref _name, value); }
         public string? LastName { get => _lastName; set => SetProperty(ref _lastName, value); }
         public string? MiddleName { get => _middleName; set => SetProperty(ref _middleName, value); }

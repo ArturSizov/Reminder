@@ -12,7 +12,7 @@ namespace Reminder.DataAccessLayer
     public class UserLiteDbProvider : IDataProvider<UserDAO>
     {
         #region Private property
-        private const string usersDataCollectionName = "reminder";
+        private const string _usersDataCollectionName = "reminder";
 
         /// <summary>
         /// Logger Company LiteDatabase provider
@@ -41,64 +41,62 @@ namespace Reminder.DataAccessLayer
             _logger = logger;
             _connectionString = options.ConnectionString;
 
-            Task.Run(InitAsync);
-
+           Init();
         }
 
         /// <inheritdoc/>
-        public Task<int> CreateAsync(UserDAO item)
+        public Task<bool> CreateAsync(UserDAO item)
         {
             if (_collection is null)
-                return Task.FromResult(0);
+                return Task.FromResult(false);
 
             try
             {
                 _collection.Insert(item);
 
-                return Task.FromResult(1);
+                return Task.FromResult(true);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception in CreateAsync()");
-                return Task.FromResult(0);
+                return Task.FromResult(false);
             }
         }
 
         /// <inheritdoc/>
-        public Task<int> DeleteAllAsync()
+        public Task<bool> DeleteAllAsync()
         {
             if (_collection is null)
-                return Task.FromResult(0);
+                return Task.FromResult(false);
 
             try
             {
                 _collection.DeleteAll();
 
-                return Task.FromResult(1);
+                return Task.FromResult(true);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception in DeleteAllAsync()");
-                return Task.FromResult(0);
+                return Task.FromResult(false);
             }
         }
 
         /// <inheritdoc/>
-        public Task<int> DeleteAsync(UserDAO item)
+        public Task<bool> DeleteAsync(UserDAO item)
         {
             if (_collection is null)
-                return Task.FromResult(0);
+                return Task.FromResult(false);
 
             try
             {
                 _collection.Delete(item.Id);
-
-                return Task.FromResult(1);
+                return Task.FromResult(true);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception in DeleteAsync()");
-                return Task.FromResult(0);
+                return Task.FromResult(false);
             }
         }
 
@@ -138,36 +136,34 @@ namespace Reminder.DataAccessLayer
         }
 
         /// <inheritdoc/>
-        public Task<int> UpdateAsync(UserDAO item)
+        public Task<bool> UpdateAsync(UserDAO item)
         {
             if (_collection is null)
-                return Task.FromResult(0);
+                return Task.FromResult(false);
 
             try
             {
                 _collection.Update(item);
-
-                return Task.FromResult(1);
+                return Task.FromResult(true);
 
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception in UpdateAsync()");
-                return Task.FromResult(0);
+                return Task.FromResult(false);
             }
-
         }
 
         /// <summary>
         /// Initializes the database
         /// </summary>
         /// <returns></returns>
-        private void InitAsync()
+        private void Init()
         {
             try
             {
                 var database = new LiteDatabase(_connectionString);
-                _collection = database.GetCollection<UserDAO?>(usersDataCollectionName);
+                _collection = database.GetCollection<UserDAO?>(_usersDataCollectionName);
             }
             catch (Exception ex)
             {

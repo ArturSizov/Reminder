@@ -56,12 +56,7 @@ namespace Reminder
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-            var app = builder.Build();
-
-            // a workaround to initialize the LiteDb providers before pages
-            _ = app.Services.GetRequiredService<IDataProvider<UserDAO>>();
-
-            return app;
+            return builder.Build();
         }
     }
 }

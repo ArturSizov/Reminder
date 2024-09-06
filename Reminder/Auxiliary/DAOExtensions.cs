@@ -15,7 +15,7 @@ namespace Reminder.Auxiliary
         /// <returns></returns>
         public static User ToModel(this UserDAO? dao) => new()
         {
-            Id = dao?.Id,
+            Id = dao!.Id,
             Name = dao?.Name,
             Avatar = dao?.Avatar,
             Birthday = dao!.Birthday,
@@ -31,7 +31,7 @@ namespace Reminder.Auxiliary
         /// <returns></returns>
         public static UserDAO ToDAO(this User? model) => new()
         {
-           Id = model?.Id,
+           Id = model!.Id,
            Name = model?.Name,
            Note = model?.Note,
            Avatar = model?.Avatar,
