@@ -11,7 +11,8 @@
                xmlns:avatar="clr-namespace:Reminder.Controls"        
                xmlns:properties="clr-namespace:SDK.Base.Properties;assembly=SDK.Base"
                x:Class="Reminder.Pages.MainPage"
-               Shell.NavBarIsVisible="True">
+               Shell.NavBarIsVisible="True"
+               BindingContext="{Binding Source={StaticResource Locator}, Path=MainPageViewModel}">
 
 
     <Shell.TitleView>

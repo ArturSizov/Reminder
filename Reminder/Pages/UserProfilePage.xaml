@@ -17,6 +17,7 @@
                xmlns:properties="clr-namespace:SDK.Base.Properties;assembly=SDK.Base"
                x:Class="Reminder.Pages.UserProfilePage"
                Shell.NavBarIsVisible="True"
+               BindingContext="{Binding Source={StaticResource Locator}, Path=UserProfilePageViewModel}"
                x:DataType="vm:UserProfilePageViewModel">
 
     <ScrollView>
@@ -120,7 +121,9 @@
                 <dxe:TextEdit Grid.Column="1"
                               Text="{Binding User.Name}"
                               LabelText="{x:Static properties:Resource.Name}"
-                              Margin="40,0,0,0"/>
+                              Margin="40,0,0,0"
+                              ErrorText="{Binding ErrorText}"
+                              HasError="{Binding HasError}"/>
                 <dxe:TextEdit Grid.Column="1"
                               Text="{Binding User.MiddleName}"
                               LabelText="{x:Static properties:Resource.MiddleName}"
@@ -177,7 +180,8 @@
                          WidthRequest="130"
                          HorizontalOptions="End"
                          Margin="0,0,10,0"
-                         Command="{Binding SaveUserCommand}"/>
+                         Command="{Binding SaveUserCommand}"
+                         IsEnabled="{Binding SaveUserIsEnabled}"/>
         </dx:DXStackLayout>
     </ScrollView>
 </base:BasePage>

@@ -9,6 +9,8 @@ using Reminder.Managers;
 using Reminder.DataAccessLayer.DAO;
 using Reminder.DataAccessLayer;
 using Reminder.Auxiliary;
+using Reminder.Services;
+using CommunityToolkit.Maui.Core;
 
 namespace Reminder.IoCModules
 {
@@ -30,7 +32,8 @@ namespace Reminder.IoCModules
             services.AddSingleton<IPhotoManager, PhotoManager>();
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton(new DbConnectionOptions { ConnectionString = Path.Combine(FileSystem.AppDataDirectory, "reminder.db") });
-            services.AddSingleton<INotificationServices, NotificationServices>();
+            services.AddSingleton<IUserNotificationServices, UserNotificationServices>();
+            services.AddSingleton<ICustomNavigationService, CustomNavigationService>();
         }
     }
 }

@@ -11,9 +11,7 @@
        FlyoutIsPresented="{Binding FlyoutIsPresented}"
        x:DataType="vm:AppShellViewModel">
 
-    <ShellContent
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage"/>
+    <ShellContent ContentTemplate="{DataTemplate local:MainPage}"/>
     
     <Shell.FlyoutHeader>
         <Grid ColumnDefinitions="Auto,*"

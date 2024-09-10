@@ -7,7 +7,8 @@
                xmlns:controls="clr-namespace:Reminder.Controls"
                xmlns:dxs="http://schemas.devexpress.com/maui"
                xmlns:dx="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Core"
-               xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui">
+               xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+               BindingContext="{Binding Source={StaticResource Locator}, Path=SettingsPageViewModel}">
 
     <Shell.TitleView>
         <StackLayout Orientation="Horizontal">

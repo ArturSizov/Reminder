@@ -26,6 +26,8 @@ namespace Reminder.ViewModels
         /// </summary>
         public string? Title { get; set; } = "Reminder";
 
+        public DataTemplate DataTemplate { get; set; } = new();
+
         /// <summary>
         ///  Flyout is presented
         /// </summary>

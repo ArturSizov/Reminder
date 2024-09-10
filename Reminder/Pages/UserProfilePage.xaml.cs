@@ -4,10 +4,8 @@ namespace Reminder.Pages;
 
 public partial class UserProfilePage
 {
-	public UserProfilePage(UserProfilePageViewModel vm)
+	public UserProfilePage()
 	{
 		InitializeComponent();
-
-		BindingContext = vm;
 	}
 }

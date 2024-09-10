@@ -1,4 +1,5 @@
-﻿using SDK.Base.ViewModels;
+﻿using FluentValidation;
+using SDK.Base.ViewModels;
 
 namespace Reminder.Models
 {

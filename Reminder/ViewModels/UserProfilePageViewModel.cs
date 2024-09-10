@@ -1,10 +1,10 @@
 ﻿using Reminder.Abstractions;
 using Reminder.Models;
 using Reminder.Pages;
+using Reminder.Validators;
 using SDK.Base.Abstractions;
 using SDK.Base.Extensions;
 using SDK.Base.ViewModels;
-using System.Runtime;
 using System.Windows.Input;
 
 namespace Reminder.ViewModels
@@ -27,6 +27,11 @@ namespace Reminder.ViewModels
         private User? _user = new();
 
         /// <summary>
+        /// Disables the button while the command is running
+        /// </summary>
+        private bool? _saveUserIsEnabled;
+
+        /// <summary>
         /// User data manager
         /// </summary>
         private readonly IDataManager<User> _dataManager;
@@ -44,12 +49,32 @@ namespace Reminder.ViewModels
         /// <summary>
         /// Notification services
         /// </summary>
-        private readonly INotificationServices _notificationServices;
+        private readonly IUserNotificationServices _notificationServices;
 
         /// <summary>
         /// App settings
         /// </summary>
         private readonly IAppSettings _settings;
+
+        /// <summary>
+        /// Navigation service
+        /// </summary>
+        private readonly ICustomNavigationService _navigationService;
+
+        /// <summary>
+        /// Validator
+        /// </summary>
+        private UserValidator _validator = new();
+
+        /// <summary>
+        /// Has error validate
+        /// </summary>
+        private bool? _hasError;
+
+        /// <summary>
+        /// Validation error text
+        /// </summary>
+        private string? _errorText;
 
         #endregion
 
@@ -64,16 +89,33 @@ namespace Reminder.ViewModels
         /// </summary>
         public User? User { get => _user; set => SetProperty(ref _user, value); }
 
+        /// <summary>
+        /// Disables the button while the command is running
+        /// </summary>
+        public bool? SaveUserIsEnabled { get => _saveUserIsEnabled; set => SetProperty(ref _saveUserIsEnabled, value); }
+
+        /// <summary>
+        /// Has error validate
+        /// </summary>
+        public bool? HasError { get => _hasError; set => SetProperty(ref _hasError, value); }
+
+
+        /// <summary>
+        /// Validation error text
+        /// </summary>
+        public string? ErrorText { get => _errorText; set => SetProperty(ref _errorText, value); }
+
         #endregion
 
-        public UserProfilePageViewModel(IPhotoManager photoManager, IDataManager<User> dataManager, IDialogService dialog, INotificationServices notificationServices,
-            IAppSettings settings)
+        public UserProfilePageViewModel(IPhotoManager photoManager, IDataManager<User> dataManager, IDialogService dialog, IUserNotificationServices notificationServices,
+            IAppSettings settings, ICustomNavigationService navigationService)
         {
             _dataManager = dataManager;
             _photoManager = photoManager;
             _dialog = dialog;
             _notificationServices = notificationServices;
             _settings = settings;
+            _navigationService = navigationService;
 
             OpenPopupCommand = new Command(OnOpenPopupAsync);
             TakePhotoCommand = new Command(OnTakePhotoAsync);
@@ -100,7 +142,18 @@ namespace Reminder.ViewModels
             IsOpenPopup = false;
 
             if (User != null)
-              User.Avatar = await _photoManager.TakePhotoAsync();
+            {
+                var result = await _photoManager.TakePhotoAsync();
+
+                if(result == null)
+                {
+                    _dialog.ShowErrorMessage(SDK.Base.Properties.Resource.ErrorAddingPhoto);
+                    return;
+                }
+
+                User.Avatar = result;
+            }
+              
         }
 
         /// <summary>
@@ -113,7 +166,17 @@ namespace Reminder.ViewModels
             IsOpenPopup = false;
 
             if (User != null)
-                User.Avatar = await _photoManager.AddPhotoGalleryAsync();
+            {
+                var result = await _photoManager.AddPhotoGalleryAsync();
+
+                if(result == null)
+                {
+                    _dialog.ShowErrorMessage(SDK.Base.Properties.Resource.ErrorAddingPhoto);
+                    return;
+                }
+
+                User.Avatar = result;
+            }   
         }
 
         /// <summary>
@@ -127,8 +190,17 @@ namespace Reminder.ViewModels
 
             var result = await _dialog.ShowPopupAsync(SDK.Base.Properties.Resource.DeleteAvatar);
 
-            if (User != null && result == true)
-                User.Avatar = _photoManager.Delete(User?.Avatar);
+            if (result == true)
+            {
+                if (!_photoManager.Delete(User?.Avatar))
+                {
+                    _dialog.ShowErrorMessage(SDK.Base.Properties.Resource.ErrorDeletingPhoto);
+                    return;
+                }
+
+                if(User != null)
+                   User.Avatar = null;
+            }         
         }
 
         /// <summary>
@@ -141,27 +213,54 @@ namespace Reminder.ViewModels
             if (User == null)
                 return;
 
-            if(User.Id == 0)
+            HasError = !await ValidateAsync();
+
+            if (HasError == true)
+                return;
+
+            if (User.Id == 0)
             {
-                if(!await _dataManager.CreateAsync(User))
+                if (!await _dataManager.CreateAsync(User))
                 {
-                    //TODO: error message
+                    _dialog.ShowErrorMessage(SDK.Base.Properties.Resource.FailedCreate);
                     return;
                 }
-            }   
+            }
             else
             {
                 if (!await _dataManager.UpdateAsync(User))
                 {
-                    //TODO: error message
+                    _dialog.ShowErrorMessage(SDK.Base.Properties.Resource.FailedUpdate);
                     return;
                 }
                 _notificationServices.Cancel(User.Id);
-            }              
+            }
 
-            await _notificationServices.AddNotificationAsync(User.Id, $"{SDK.Base.Properties.Resource.Title}: {User.LastName} {User.Name} {User.MiddleName}.", SDK.Base.Properties.Resource.Congratulate, User.Birthday, _settings.Time);
+            await _notificationServices.AddNotificationAsync(User.Id, $"{SDK.Base.Properties.Resource.Title}: {User.LastName} {User.Name} {User.MiddleName}", SDK.Base.Properties.Resource.Congratulate, User.Birthday, _settings.Time);
 
-            await Shell.Current.Navigation.PopAsync();
+            SaveUserIsEnabled = await _dialog.ShowLoadingAsync(SDK.Base.Properties.Resource.Saving);
+
+            await _navigationService.NavigateToAsync(nameof(MainPage));
+
+            SaveUserIsEnabled = _dialog.CloseLoadingPopup();
+        }
+
+        /// <summary>
+        /// User validate
+        /// </summary>
+        /// <returns></returns>
+        private async Task<bool> ValidateAsync()
+        {
+            if (User == null)
+                return false;
+
+            var result = await _validator.ValidateAsync(User);
+
+
+            if (!result.IsValid)
+                ErrorText = result.Errors[0].ErrorMessage;
+
+            return result.IsValid;
         }
         #endregion
     }

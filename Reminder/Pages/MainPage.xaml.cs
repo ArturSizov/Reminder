@@ -1,13 +1,10 @@
-﻿using Reminder.ViewModels;
-
-namespace Reminder.Pages
+﻿namespace Reminder.Pages
 {
     public partial class MainPage
     {
-        public MainPage(MainPageViewModel vm)
+        public MainPage()
         {
             InitializeComponent();
-            BindingContext = vm;
         }
 
         private void DataGridView_Scrolled(object sender, DevExpress.Maui.DataGrid.DataGridViewScrolledEventArgs e)

@@ -3,9 +3,7 @@ using Reminder.Abstractions;
 using Reminder.Models;
 using Reminder.Pages;
 using SDK.Base.Abstractions;
-using SDK.Base.Services;
 using SDK.Base.ViewModels;
-using static System.Net.WebRequestMethods;
 
 namespace Reminder.ViewModels
 {
@@ -28,17 +26,22 @@ namespace Reminder.ViewModels
         /// <summary>
         /// Dialog service
         /// </summary>
-        private readonly IDialogService _dialogService;
+        private readonly IDialogService _dialog;
 
         /// <summary>
         /// Notification services
         /// </summary>
-        private readonly INotificationServices _notificationServices;
+        private readonly IUserNotificationServices _notificationServices;
 
         /// <summary>
         /// User photo manager
         /// </summary>
         private readonly IPhotoManager _photoManager;
+
+        /// <summary>
+        /// Navigation service
+        /// </summary>
+        private readonly ICustomNavigationService _navigationService;
 
         /// <summary>
         /// Disables the button while the command is running
@@ -72,22 +75,24 @@ namespace Reminder.ViewModels
         #endregion
 
         #region Ctor
-        public MainPageViewModel(IThemesManager themes, IDataManager<User> dataManager, IDialogService dialogService, INotificationServices notificationServices,
-            IPhotoManager photoManager)
+        public MainPageViewModel(IThemesManager themes, IDataManager<User> dataManager, IDialogService dialog, IUserNotificationServices notificationServices,
+            IPhotoManager photoManager, ICustomNavigationService navigationService)
         {
             DataManager = dataManager;
 
             themes.GetSelectedTheme();
 
-            _dialogService = dialogService;
+            _dialog = dialog;
             _notificationServices = notificationServices;
             _photoManager = photoManager;
+            _navigationService = navigationService;
 
             OpenUserProfileCommand = new Command<User>(OpenUserProfileAsync);
             SearchCommand = new Command<string>(Search);
             AddUserCommand = new Command(OnAddUserAsync);
             DeleteUserCommand = new Command<User>(OnDeleteUserAsync);
         }
+
         #endregion
 
         #region Commands
@@ -102,9 +107,9 @@ namespace Reminder.ViewModels
         /// <param name="user"></param>
         private async void OpenUserProfileAsync(User user)
         {
-            await _dialogService.ShowLoadingAsync(SDK.Base.Properties.Resource.Loading);
+            await _dialog.ShowLoadingAsync(SDK.Base.Properties.Resource.Loading);
 
-            await Shell.Current.GoToAsync(nameof(UserProfilePage), new Dictionary<string, object>
+            await _navigationService.NavigateToAsync(nameof(UserProfilePage), new Dictionary<string, object>
             {
                 { nameof(UserProfilePage), new User
                     {
@@ -118,7 +123,7 @@ namespace Reminder.ViewModels
                     }
                 }});
 
-            _dialogService.CloseLoadingPopup();
+            _dialog.CloseLoadingPopup();
         }
 
         /// <summary>
@@ -146,11 +151,11 @@ namespace Reminder.ViewModels
 
         private async void OnAddUserAsync(object obj)
         {
-           AddUserIsEnabled = await _dialogService.ShowLoadingAsync(SDK.Base.Properties.Resource.Loading);
+           AddUserIsEnabled = await _dialog.ShowLoadingAsync(SDK.Base.Properties.Resource.Loading);
 
-           await Shell.Current.GoToAsync(nameof(UserProfilePage));
+           await _navigationService.NavigateToAsync(nameof(UserProfilePage));
 
-            AddUserIsEnabled = _dialogService.CloseLoadingPopup();
+           AddUserIsEnabled = _dialog.CloseLoadingPopup();
         }
 
         /// <summary>
@@ -160,13 +165,13 @@ namespace Reminder.ViewModels
 
         private async void OnDeleteUserAsync(User user)
         {
-            var result = await _dialogService.ShowPopupAsync($"{SDK.Base.Properties.Resource.DeleteUser} {user.Name}?");
+            var result = await _dialog.ShowPopupAsync($"{SDK.Base.Properties.Resource.DeleteUser} {user.Name}?");
 
             if (result == true)
             {
                 if(!await DataManager.DeleteAsync(user))
                 {
-                    //TODO: error message
+                    _dialog.ShowErrorMessage(SDK.Base.Properties.Resource.FailedDelete);
                     return;
                 }
 
@@ -175,10 +180,6 @@ namespace Reminder.ViewModels
                 _notificationServices.Cancel(user.Id);
             }
         }
-        #endregion
-
-        #region Methods
-   
         #endregion
     }
 }

@@ -23,7 +23,6 @@ namespace Reminder.Managers
         /// <param name="dataProvider"></param>
         public UserManager(IDataProvider<UserDAO> dataProvider)
         {
-            Task.Run(ReadAllUsersAsync);
             _dataProvider = dataProvider;
         }
 

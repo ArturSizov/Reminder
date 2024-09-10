@@ -8,6 +8,7 @@ using Plugin.LocalNotification;
 using Reminder.DataAccessLayer.DAO;
 using Reminder.IoCModules;
 using SDK.Base.Abstractions;
+using SDK.Base.Auxiliary;
 
 namespace Reminder
 {
@@ -56,7 +57,12 @@ namespace Reminder
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-            return builder.Build();
+            var app = builder.Build();
+
+            //Initialization of view models root container
+            RootContainer.Container.Initialize(app.Services);
+
+            return app;
         }
     }
 }

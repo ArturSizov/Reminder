@@ -28,7 +28,7 @@ namespace Reminder.ViewModels
         /// <summary>
         /// Notification service
         /// </summary>
-        private readonly INotificationServices _notificationServices;
+        private readonly IUserNotificationServices _notificationServices;
 
         /// <summary>
         /// App settings
@@ -65,7 +65,7 @@ namespace Reminder.ViewModels
 
         #endregion
 
-        public SettingsPageViewModel(IThemesManager themesManager, INotificationServices notificationServices, IAppSettings settings, IDataManager<User> dataManager)
+        public SettingsPageViewModel(IThemesManager themesManager, IUserNotificationServices notificationServices, IAppSettings settings, IDataManager<User> dataManager)
         {
             ThemesManager = themesManager;
             _notificationServices = notificationServices;

@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Reminder"
              xmlns:converters="clr-namespace:Reminder.Converters"
+             xmlns:container="clr-namespace:Reminder.IoCModules"
              x:Class="Reminder.App">
     
     <Application.Resources>
         <ResourceDictionary>
+            <container:ViewModelLocator x:Key="Locator"/>
             <converters:CornerRadiusConverter x:Key="CornerRadiusConverter"/>
             <converters:IsVisibleConverter x:Key="IsVisibleConverter"/>
             <converters:StatusBarStyleConverter x:Key="StatusBarStyleConverter"/>
