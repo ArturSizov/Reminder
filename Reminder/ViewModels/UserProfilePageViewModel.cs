@@ -152,8 +152,7 @@ namespace Reminder.ViewModels
                 }
 
                 User.Avatar = result;
-            }
-              
+            }            
         }
 
         /// <summary>
@@ -240,7 +239,7 @@ namespace Reminder.ViewModels
 
             SaveUserIsEnabled = await _dialog.ShowLoadingAsync(SDK.Base.Properties.Resource.Saving);
 
-            await _navigationService.NavigateToAsync(nameof(MainPage));
+            await _navigationService.PopAsync();
 
             SaveUserIsEnabled = _dialog.CloseLoadingPopup();
         }

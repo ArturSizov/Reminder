@@ -21,6 +21,11 @@ namespace Reminder.ViewModels
         private string? _selectedTheme;
 
         /// <summary>
+        /// Reminders enabled/disabled
+        /// </summary>
+        private bool _isChecked;
+
+        /// <summary>
         /// Alert time
         /// </summary>
         private DateTime _time;
@@ -40,6 +45,11 @@ namespace Reminder.ViewModels
         /// </summary>
         private readonly IDataManager<User> _dataManager;
 
+        /// <summary>
+        /// Dialog service
+        /// </summary>
+        private readonly IDialogService _dialog;
+
         #endregion
 
         #region Public property
@@ -54,6 +64,11 @@ namespace Reminder.ViewModels
         public string? SelectedTheme { get => _selectedTheme; set => SetProperty(ref _selectedTheme, value); }
 
         /// <summary>
+        /// Reminders enabled/disabled
+        /// </summary>
+        public bool IsChecked { get => _isChecked; set => SetProperty(ref _isChecked, value); }
+
+        /// <summary>
         /// Themes manager
         /// </summary>
         public IThemesManager ThemesManager { get; }
@@ -65,20 +80,25 @@ namespace Reminder.ViewModels
 
         #endregion
 
-        public SettingsPageViewModel(IThemesManager themesManager, IUserNotificationServices notificationServices, IAppSettings settings, IDataManager<User> dataManager)
+        public SettingsPageViewModel(IThemesManager themesManager, IUserNotificationServices notificationServices, IAppSettings settings, IDataManager<User> dataManager,
+            IDialogService dialog)
         {
             ThemesManager = themesManager;
             _notificationServices = notificationServices;
             _settings = settings;
             _dataManager = dataManager;
+            _dialog = dialog;
 
             SelectedTheme = themesManager.GetSelectedTheme();
             Time = _settings.Time;
+            IsChecked = _settings.IsChecked;
 
             OpenPopupCommand = new Command(OnOpenPopupAsync);
             SetThemeCommand = new Command<AppTheme>(OnSetThemeAsync);
             SetTimeCommand = new Command(OnSetTime);
+            CheckedCommand = new Command(OnChecked);
         }
+
         #region Commands
 
         /// <summary>
@@ -111,6 +131,29 @@ namespace Reminder.ViewModels
 
             foreach (var item in _dataManager.Items)
                 _notificationServices.AddNotificationAsync(item.Id, $"{SDK.Base.Properties.Resource.Title}: {item.LastName} {item.Name} {item.MiddleName}.", SDK.Base.Properties.Resource.Congratulate, item.Birthday, _settings.Time);
+
+        }
+
+        /// <summary>
+        /// Checked command
+        /// </summary>
+        public ICommand CheckedCommand { get; }
+
+        private async void OnChecked(object obj)
+        {
+            _settings.IsChecked = IsChecked;
+
+            if (!IsChecked)
+            {
+                _notificationServices.CancelAll();
+                _dialog.ShowInformationMessage(SDK.Base.Properties.Resource.NotificationsDisabled);
+                return;
+            }
+
+            foreach (var item in _dataManager.Items)
+                await _notificationServices.AddNotificationAsync(item.Id, $"{SDK.Base.Properties.Resource.Title}: {item.LastName} {item.Name} {item.MiddleName}", SDK.Base.Properties.Resource.Congratulate, item.Birthday, Time);
+
+            _dialog.ShowInformationMessage(SDK.Base.Properties.Resource.NotificationsEnabled);
 
         }
         #endregion

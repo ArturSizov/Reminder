@@ -79,15 +79,30 @@
                 </dxs:DXStackLayout>
             </controls:DialogPopup.CustomContent>
         </controls:DialogPopup>
-        <dxs:TimeEdit HeightRequest="60"
-                      VerticalOptions="Start"
-                      Time="{Binding Time}"
-                      Margin="5"
-                      LabelText="{x:Static properties:Resource.AlertTime}"
-                      StartIcon="alarm"
-                      TimeIcon="edit"
-                      StartIconColor="#d8d842"
-                      TimeIconColor="#d8d842"
-                      TimeChangedCommand="{Binding SetTimeCommand}"/>
+        <Grid ColumnDefinitions="*,Auto" 
+              HeightRequest="60"
+              VerticalOptions="Start"
+              Margin="5">
+            <dxs:TimeEdit Grid.Column="0"
+                          Time="{Binding Time}"
+                          LabelText="{x:Static properties:Resource.AlertTime}"
+                          IsEnabled="{Binding Source={x:Reference check}, Path=IsChecked}"
+                          StartIcon="alarm"
+                          TimeIcon="edit"
+                          StartIconColor="#d8d842"
+                          TimeIconColor="#d8d842"
+                          TimeChangedCommand="{Binding SetTimeCommand}"/>
+            <dxs:CheckEdit Grid.Column="1"
+                           x:Name="check"
+                           Padding="10"
+                           IsChecked="{Binding IsChecked}"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand">
+                <dxs:CheckEdit.Behaviors>
+                    <mct:EventToCommandBehavior EventName="CheckedChanged"
+                                                Command="{Binding CheckedCommand}"/>
+                </dxs:CheckEdit.Behaviors>
+            </dxs:CheckEdit>
+        </Grid>
     </Grid>
 </base:BasePage>

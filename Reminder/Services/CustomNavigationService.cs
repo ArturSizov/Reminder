@@ -11,5 +11,8 @@ namespace Reminder.Services
         public Task NavigateToAsync(string route, IDictionary<string, object> ?routeParameters = null) => routeParameters != null
                     ? Shell.Current.GoToAsync(route, routeParameters)
                     : Shell.Current.GoToAsync(route);
+
+        /// <inheritdoc/>
+        public async Task PopAsync() => await Shell.Current.Navigation.PopAsync();
     }
 }

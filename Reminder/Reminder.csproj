@@ -62,6 +62,7 @@
 	  <None Remove="Resources\Images\error.png" />
 	  <None Remove="Resources\Images\gallery.png" />
 	  <None Remove="Resources\Images\ic_anonymous.png" />
+	  <None Remove="Resources\Images\info.png" />
 	  <None Remove="Resources\Images\light_mode.png" />
 	  <None Remove="Resources\Images\person.png" />
 	  <None Remove="Resources\Images\person_add.svg" />
