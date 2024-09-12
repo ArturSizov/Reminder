@@ -6,9 +6,4 @@ public partial class SettingsPage
 	{
 		InitializeComponent();
 	}
-
-    private void CheckEdit_CheckedChanged(object sender, EventArgs e)
-    {
-
-    }
 }

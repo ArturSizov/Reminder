@@ -91,7 +91,7 @@ namespace Reminder.ViewModels
 
             SelectedTheme = themesManager.GetSelectedTheme();
             Time = _settings.Time;
-            IsChecked = _settings.IsChecked;
+            IsChecked = notificationServices.IsEnabled;
 
             OpenPopupCommand = new Command(OnOpenPopupAsync);
             SetThemeCommand = new Command<AppTheme>(OnSetThemeAsync);
@@ -124,14 +124,12 @@ namespace Reminder.ViewModels
         /// </summary>
         public ICommand SetTimeCommand { get; }
 
-        private void OnSetTime(object obj)
+        private async void OnSetTime(object obj)
         {
             _notificationServices.CancelAll();
             _settings.Time = Time;
 
-            foreach (var item in _dataManager.Items)
-                _notificationServices.AddNotificationAsync(item.Id, $"{SDK.Base.Properties.Resource.Title}: {item.LastName} {item.Name} {item.MiddleName}.", SDK.Base.Properties.Resource.Congratulate, item.Birthday, _settings.Time);
-
+            await SetNotificationUsersAsync();
         }
 
         /// <summary>
@@ -141,7 +139,7 @@ namespace Reminder.ViewModels
 
         private async void OnChecked(object obj)
         {
-            _settings.IsChecked = IsChecked;
+            _notificationServices.IsEnabled = IsChecked;
 
             if (!IsChecked)
             {
@@ -150,11 +148,18 @@ namespace Reminder.ViewModels
                 return;
             }
 
-            foreach (var item in _dataManager.Items)
-                await _notificationServices.AddNotificationAsync(item.Id, $"{SDK.Base.Properties.Resource.Title}: {item.LastName} {item.Name} {item.MiddleName}", SDK.Base.Properties.Resource.Congratulate, item.Birthday, Time);
+            await SetNotificationUsersAsync();
 
             _dialog.ShowInformationMessage(SDK.Base.Properties.Resource.NotificationsEnabled);
+        }
 
+        /// <summary>
+        /// Sets reminders for all users
+        /// </summary>
+        private async Task SetNotificationUsersAsync()
+        {
+            foreach (var item in _dataManager.Items)
+                await _notificationServices.AddNotificationAsync(item.Id, $"{SDK.Base.Properties.Resource.Title}: {item.LastName} {item.Name} {item.MiddleName}", SDK.Base.Properties.Resource.Congratulate, item.Birthday, Time);
         }
         #endregion
     }
